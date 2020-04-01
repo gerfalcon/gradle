@@ -1978,12 +1978,12 @@ The value of this provider is derived from:
 
         expect:
         assertContentIsNotProducedByTask(mapped)
-        !mapped.valueProducedByTask
+        mapped.calculateExecutionTimeValue().isFixedValue()
 
         property.attachProducer(owner(task))
 
         assertContentIsProducedByTask(mapped, task)
-        mapped.valueProducedByTask
+        mapped.calculateExecutionTimeValue().isChangingValue()
     }
 
     def "chain of mapped value has value producer when producer task attached to original property"() {
@@ -1993,17 +1993,17 @@ The value of this provider is derived from:
 
         expect:
         assertContentIsNotProducedByTask(mapped)
-        !mapped.valueProducedByTask
+        mapped.calculateExecutionTimeValue().isFixedValue()
 
         property.attachProducer(owner(task))
 
         assertContentIsProducedByTask(mapped, task)
-        mapped.valueProducedByTask
+        mapped.calculateExecutionTimeValue().isChangingValue()
     }
 
     def "mapped value has value producer when value is provider with content producer"() {
         def task = Mock(Task)
-        def provider = supplierWithProducer(task)
+        def provider = supplierWithProducer(task, someValue())
 
         def property = propertyWithNoValue()
         property.set(provider)
@@ -2011,7 +2011,7 @@ The value of this provider is derived from:
 
         expect:
         assertContentIsProducedByTask(mapped, task)
-        mapped.valueProducedByTask
+        mapped.calculateExecutionTimeValue().isChangingValue()
     }
 
     def "fails when property has multiple producers attached"() {
@@ -2137,8 +2137,8 @@ The value of this provider is derived from:
         return ProviderTestUtil.withValues(values)
     }
 
-    ProviderInternal<T> supplierWithProducer(Task producer) {
-        return ProviderTestUtil.withProducer(type(), producer)
+    ProviderInternal<T> supplierWithProducer(Task producer, T... values) {
+        return ProviderTestUtil.withProducer(type(), producer, values)
     }
 
     class NoValueProvider<T> extends AbstractMinimalProvider<T> {
