@@ -19,7 +19,7 @@ package org.gradle.api.internal.provider
 import org.gradle.api.provider.Provider
 import org.gradle.internal.state.ManagedFactory
 
-class AbstractMappingProviderTest extends ProviderSpec<String> {
+class MappingProviderTest extends ProviderSpec<String> {
     @Override
     Provider<String> providerWithValue(String value) {
         return new TestProvider(Providers.of(value.replace("{", "").replace("}", "")))
@@ -60,7 +60,7 @@ class AbstractMappingProviderTest extends ProviderSpec<String> {
         return new ManagedFactories.ProviderManagedFactory()
     }
 
-    class TestProvider extends AbstractMappingProvider<String, String> {
+    class TestProvider extends MappingProvider<String, String> {
         TestProvider(ProviderInternal<? extends String> provider) {
             super(String, provider)
         }
