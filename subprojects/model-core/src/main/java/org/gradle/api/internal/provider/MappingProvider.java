@@ -86,6 +86,6 @@ public class MappingProvider<OUT, IN> extends AbstractMinimalProvider<OUT> {
 
     @Override
     public String toString() {
-        return "map(" + type.getName() + " " + provider + ")";
+        return "map(" + type.getName() + " " + provider + " " + transformer + ")";
     }
 }
