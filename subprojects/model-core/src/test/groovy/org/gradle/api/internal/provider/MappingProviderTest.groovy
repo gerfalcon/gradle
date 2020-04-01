@@ -22,12 +22,12 @@ import org.gradle.internal.state.ManagedFactory
 class MappingProviderTest extends ProviderSpec<String> {
     @Override
     Provider<String> providerWithValue(String value) {
-        return new TestProvider(Providers.of(value.replace("{", "").replace("}", "")))
+        return new MappingProvider(String, Providers.of(value.replace("{", "").replace("}", "")), { "{$it}" })
     }
 
     @Override
     Provider<String> providerWithNoValue() {
-        return new TestProvider(Providers.notDefined())
+        return new MappingProvider(String, Providers.notDefined(), { "{$it}" })
     }
 
     @Override
@@ -58,21 +58,5 @@ class MappingProviderTest extends ProviderSpec<String> {
     @Override
     ManagedFactory managedFactory() {
         return new ManagedFactories.ProviderManagedFactory()
-    }
-
-    class TestProvider extends MappingProvider<String, String> {
-        TestProvider(ProviderInternal<? extends String> provider) {
-            super(String, provider)
-        }
-
-        @Override
-        protected String getMapDescription() {
-            return "thing"
-        }
-
-        @Override
-        protected String mapValue(String v) {
-            return "{$v}"
-        }
     }
 }
