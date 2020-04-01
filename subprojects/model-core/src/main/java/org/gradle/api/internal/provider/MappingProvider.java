@@ -78,7 +78,7 @@ public class MappingProvider<OUT, IN> extends AbstractMinimalProvider<OUT> {
         if (value.isChangingValue()) {
             return ExecutionTimeValue.changingValue(new MappingProvider<OUT, IN>(type, value.getChangingValue(), transformer));
         } else if (value.isMissing()) {
-            return ExecutionTimeValue.noValue();
+            return ExecutionTimeValue.missing();
         } else {
             return ExecutionTimeValue.fixedValue(transformer.transform(value.getFixedValue()));
         }

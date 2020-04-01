@@ -145,7 +145,7 @@ public class Providers {
 
         @Override
         public ExecutionTimeValue<? extends T> calculateExecutionTimeValue() {
-            return ExecutionTimeValue.noValue();
+            return ExecutionTimeValue.missing();
         }
 
         @Override

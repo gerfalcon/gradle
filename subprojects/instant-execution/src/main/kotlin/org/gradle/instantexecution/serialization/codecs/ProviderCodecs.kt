@@ -97,7 +97,7 @@ class FixedValueReplacingProviderCodec(valueSourceProviderFactory: ValueSourcePr
                 DefaultProvider { value.rethrow() }
             }
             1.toByte() -> Providers.notDefined<Any>()
-            2.toByte() -> Providers.of(read()!!)
+            2.toByte() -> Providers.ofNullable(read()) // nullable because serialization may replace value with null, eg when using provider of Task
             3.toByte() -> providerWithChangingValueCodec.run { decode() }!!.uncheckedCast()
             else -> throw IllegalStateException("Unexpected provider value")
         }

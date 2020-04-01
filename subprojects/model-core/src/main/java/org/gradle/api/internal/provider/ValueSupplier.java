@@ -105,7 +105,7 @@ public interface ValueSupplier {
     class Present<T> implements Value<T> {
         private final T result;
 
-        public Present(T result) {
+        private Present(T result) {
             this.result = result;
         }
 
@@ -153,11 +153,11 @@ public interface ValueSupplier {
     class Missing<T> implements Value<T> {
         private final List<DisplayName> path;
 
-        public Missing() {
+        private Missing() {
             this.path = ImmutableList.of();
         }
 
-        public Missing(List<DisplayName> path) {
+        private Missing(List<DisplayName> path) {
             this.path = path;
         }
 
@@ -255,21 +255,20 @@ public interface ValueSupplier {
 
         public abstract ProviderInternal<T> toProvider();
 
-        public ExecutionTimeValue<T> withChangingContent() {
-            throw new IllegalStateException();
-        }
+        public abstract ExecutionTimeValue<T> withChangingContent();
 
-        public static <T> ExecutionTimeValue<T> noValue() {
+        public static <T> ExecutionTimeValue<T> missing() {
             return new MissingExecutionTimeValue<>();
         }
 
         public static <T> ExecutionTimeValue<T> fixedValue(T value) {
+            assert value != null;
             return new FixedExecutionTimeValue<>(value, false);
         }
 
         public static <T> ExecutionTimeValue<T> value(Value<T> value) {
             if (value.isMissing()) {
-                return noValue();
+                return missing();
             } else {
                 return fixedValue(value.get());
             }
@@ -292,6 +291,11 @@ public interface ValueSupplier {
         }
 
         @Override
+        public ExecutionTimeValue<T> withChangingContent() {
+            return this;
+        }
+
+        @Override
         public Value<T> toValue() {
             return Value.missing();
         }
@@ -301,7 +305,7 @@ public interface ValueSupplier {
         private final T value;
         private final boolean changingContent;
 
-        public FixedExecutionTimeValue(T value, boolean changingContent) {
+        private FixedExecutionTimeValue(T value, boolean changingContent) {
             this.value = value;
             this.changingContent = changingContent;
         }
@@ -343,7 +347,7 @@ public interface ValueSupplier {
     class ChangingExecutionTimeValue<T> extends ExecutionTimeValue<T> {
         private final ProviderInternal<T> provider;
 
-        public ChangingExecutionTimeValue(ProviderInternal<T> provider) {
+        private ChangingExecutionTimeValue(ProviderInternal<T> provider) {
             this.provider = provider;
         }
 
@@ -365,6 +369,11 @@ public interface ValueSupplier {
         @Override
         public ProviderInternal<T> toProvider() {
             return provider;
+        }
+
+        @Override
+        public ExecutionTimeValue<T> withChangingContent() {
+            return this;
         }
     }
 }
