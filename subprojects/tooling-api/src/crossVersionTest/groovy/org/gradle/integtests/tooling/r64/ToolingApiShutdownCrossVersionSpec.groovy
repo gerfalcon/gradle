@@ -20,14 +20,22 @@ import org.gradle.integtests.tooling.CancellationSpec
 import org.gradle.integtests.tooling.fixture.TestResultHandler
 import org.gradle.integtests.tooling.fixture.ToolingApiVersion
 import org.gradle.tooling.ProjectConnection
+import org.gradle.tooling.internal.consumer.DefaultGradleConnector
 import org.gradle.tooling.model.eclipse.EclipseProject
+import spock.util.concurrent.PollingConditions
 
 @ToolingApiVersion(">=6.4")
 class ToolingApiShutdownCrossVersionSpec extends CancellationSpec {
 
-    def "can forcibly stop a project connection when running a build"() {
-        def existingDaemonPids = toolingApi.daemons.daemons.collect { it.context.pid }
+    def waitFor
+    def existingDaemonPids
 
+    def setup() {
+        waitFor = new PollingConditions(timeout: 60, initialDelay: 0, factor: 1.25)
+        existingDaemonPids = toolingApi.daemons.daemons.collect { it.context.pid }
+    }
+
+    def "can forcibly stop a project connection when running a build"() {
         toolingApi.requireDaemons()
         buildFile << """
             task hang {
@@ -43,23 +51,20 @@ class ToolingApiShutdownCrossVersionSpec extends CancellationSpec {
         when:
         withConnection { ProjectConnection connection ->
             def build = connection.newBuild()
-            build.forTasks('hang').addJvmArguments(' -agentlib:jdwp=transport=dt_socket,server=n,suspend=y,address=127.0.0.1:45227')
+            build.forTasks('hang')
             build.run(resultHandler)
             sync.waitForAllPendingCalls(resultHandler)
-            connection.stopNow()
+            DefaultGradleConnector.disconnect()
             resultHandler.finished()
         }
-        def newDaemons = toolingApi.daemons.daemons.findAll { !existingDaemonPids.contains(it.context.pid) }
 
         then:
-        newDaemons.size() == 1
-        newDaemons[0].stops()
-        noExceptionThrown()
+        waitFor.eventually {
+            toolingApi.daemons.daemons.findAll { !existingDaemonPids.contains(it.context.pid) }.empty
+        }
     }
 
     def "can forcibly stop a project connection when querying a tooling model"() {
-        def existingDaemonPids = toolingApi.daemons.daemons.collect { it.context.pid }
-
         toolingApi.requireDaemons()
         buildFile << """
             apply plugin: 'eclipse'
@@ -82,14 +87,13 @@ class ToolingApiShutdownCrossVersionSpec extends CancellationSpec {
             def query = connection.model(EclipseProject)
             query.get(resultHandler)
             sync.waitForAllPendingCalls(resultHandler)
-            connection.stopNow()
+            DefaultGradleConnector.disconnect()
             resultHandler.finished()
         }
-        def newDaemons = toolingApi.daemons.daemons.findAll { !existingDaemonPids.contains(it.context.pid) }
 
         then:
-        newDaemons.size() == 1
-        newDaemons[0].stops()
-        noExceptionThrown()
+        waitFor.eventually {
+            toolingApi.daemons.daemons.findAll { !existingDaemonPids.contains(it.context.pid) }.empty
+        }
     }
-}
+ }
