@@ -20,6 +20,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import org.gradle.api.Action;
 import org.gradle.api.provider.MapProperty;
 import org.gradle.api.provider.Provider;
 import org.gradle.internal.Cast;
@@ -214,18 +215,14 @@ public class DefaultMapProperty<K, V> extends AbstractProperty<Map<K, V>, MapSup
         return this;
     }
 
-    public List<? extends ProviderInternal<? extends Map<? extends K, ? extends V>>> getProviders() {
-        List<ProviderInternal<? extends Map<? extends K, ? extends V>>> providers = new ArrayList<>();
-        getSupplier().visit(providers);
-        return providers;
-    }
-
-    public void providers(List<? extends ProviderInternal<? extends Map<? extends K, ? extends V>>> providers) {
-        MapSupplier<K, V> value = defaultValue;
-        for (ProviderInternal<? extends Map<? extends K, ? extends V>> provider : providers) {
-            value = value.plus(new MapCollectors.EntriesFromMapProvider<>(provider));
+    public void fromState(ExecutionTimeValue<? extends Map<? extends K, ? extends V>> value) {
+        if (value.isMissing()) {
+            setSupplier(noValueSupplier());
+        } else if (value.isFixedValue()) {
+            setSupplier(new FixedSuppler<>(Cast.uncheckedNonnullCast(value.getFixedValue())));
+        } else {
+            setSupplier(new CollectingSupplier(new MapCollectors.EntriesFromMapProvider<>(value.getChangingValue())));
         }
-        setSupplier(value);
     }
 
     @Override
@@ -258,7 +255,7 @@ public class DefaultMapProperty<K, V> extends AbstractProperty<Map<K, V>, MapSup
 
     @Override
     protected ExecutionTimeValue<? extends Map<K, V>> calculateOwnExecutionTimeValue(MapSupplier<K, V> value) {
-        return ExecutionTimeValue.value(value.calculateValue());
+        return value.calculateOwnExecutionTimeValue();
     }
 
     private class EntryProvider extends AbstractMinimalProvider<V> {
@@ -329,7 +326,8 @@ public class DefaultMapProperty<K, V> extends AbstractProperty<Map<K, V>, MapSup
         }
 
         @Override
-        public void visit(List<ProviderInternal<? extends Map<? extends K, ? extends V>>> sources) {
+        public ExecutionTimeValue<? extends Map<K, V>> calculateOwnExecutionTimeValue() {
+            return ExecutionTimeValue.missing();
         }
 
         @Override
@@ -361,7 +359,8 @@ public class DefaultMapProperty<K, V> extends AbstractProperty<Map<K, V>, MapSup
         }
 
         @Override
-        public void visit(List<ProviderInternal<? extends Map<? extends K, ? extends V>>> sources) {
+        public ExecutionTimeValue<? extends Map<K, V>> calculateOwnExecutionTimeValue() {
+            return ExecutionTimeValue.fixedValue(ImmutableMap.of());
         }
 
         @Override
@@ -398,8 +397,8 @@ public class DefaultMapProperty<K, V> extends AbstractProperty<Map<K, V>, MapSup
         }
 
         @Override
-        public void visit(List<ProviderInternal<? extends Map<? extends K, ? extends V>>> sources) {
-            sources.add(Providers.of(entries));
+        public ExecutionTimeValue<? extends Map<K, V>> calculateOwnExecutionTimeValue() {
+            return ExecutionTimeValue.fixedValue(entries);
         }
 
         @Override
@@ -451,13 +450,70 @@ public class DefaultMapProperty<K, V> extends AbstractProperty<Map<K, V>, MapSup
         }
 
         @Override
-        public void visit(List<ProviderInternal<? extends Map<? extends K, ? extends V>>> sources) {
-            collector.visit(sources);
+        public ExecutionTimeValue<? extends Map<K, V>> calculateOwnExecutionTimeValue() {
+            List<ExecutionTimeValue<? extends Map<? extends K, ? extends V>>> values = new ArrayList<>();
+            collector.calculateExecutionTimeValue(values::add);
+            boolean fixed = true;
+            boolean changingContent = false;
+            for (ExecutionTimeValue<? extends Map<? extends K, ? extends V>> value : values) {
+                if (value.isMissing()) {
+                    return ExecutionTimeValue.missing();
+                }
+                if (value.isChangingValue()) {
+                    fixed = false;
+                } else if (value.hasChangingContent()) {
+                    changingContent = true;
+                }
+            }
+            if (fixed) {
+                Map<K, V> entries = new LinkedHashMap<>();
+                for (ExecutionTimeValue<? extends Map<? extends K, ? extends V>> value : values) {
+                    entries.putAll(value.getFixedValue());
+                }
+                ExecutionTimeValue<Map<K, V>> value = ExecutionTimeValue.fixedValue(ImmutableMap.copyOf(entries));
+                if (changingContent) {
+                    return value.withChangingContent();
+                } else {
+                    return value;
+                }
+            }
+            List<ProviderInternal<? extends Map<? extends K, ? extends V>>> providers = new ArrayList<>();
+            for (ExecutionTimeValue<? extends Map<? extends K, ? extends V>> value : values) {
+                providers.add(value.toProvider());
+            }
+            return ExecutionTimeValue.changingValue(new CollectingProvider<K, V>(providers));
         }
 
         @Override
         public ValueProducer getProducer() {
             return collector.getProducer();
+        }
+    }
+
+    private static class CollectingProvider<K, V> extends AbstractMinimalProvider<Map<K, V>> {
+        private final List<ProviderInternal<? extends Map<? extends K, ? extends V>>> providers;
+
+        public CollectingProvider(List<ProviderInternal<? extends Map<? extends K, ? extends V>>> providers) {
+            this.providers = providers;
+        }
+
+        @Nullable
+        @Override
+        public Class<Map<K, V>> getType() {
+            return Cast.uncheckedCast(Map.class);
+        }
+
+        @Override
+        protected Value<? extends Map<K, V>> calculateOwnValue() {
+            Map<K, V> entries = new LinkedHashMap<>();
+            for (ProviderInternal<? extends Map<? extends K, ? extends V>> provider : providers) {
+                Value<? extends Map<? extends K, ? extends V>> value = provider.calculateValue();
+                if (value.isMissing()) {
+                    return Value.missing();
+                }
+                entries.putAll(value.get());
+            }
+            return Value.of(ImmutableMap.copyOf(entries));
         }
     }
 
@@ -494,9 +550,9 @@ public class DefaultMapProperty<K, V> extends AbstractProperty<Map<K, V>, MapSup
         }
 
         @Override
-        public void visit(List<ProviderInternal<? extends Map<? extends K, ? extends V>>> sources) {
-            left.visit(sources);
-            right.visit(sources);
+        public void calculateExecutionTimeValue(Action<ExecutionTimeValue<? extends Map<? extends K, ? extends V>>> visitor) {
+            left.calculateExecutionTimeValue(visitor);
+            right.calculateExecutionTimeValue(visitor);
         }
 
         @Override

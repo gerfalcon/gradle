@@ -19,8 +19,8 @@ package org.gradle.api.internal.provider;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
+import org.gradle.api.Action;
 
-import java.util.List;
 import java.util.Map;
 
 public class MapCollectors {
@@ -53,8 +53,8 @@ public class MapCollectors {
         }
 
         @Override
-        public void visit(List<ProviderInternal<? extends Map<? extends K, ? extends V>>> sources) {
-            sources.add(Providers.of(ImmutableMap.of(key, value)));
+        public void calculateExecutionTimeValue(Action<ExecutionTimeValue<? extends Map<? extends K, ? extends V>>> visitor) {
+            visitor.execute(ExecutionTimeValue.fixedValue(ImmutableMap.of(key, value)));
         }
 
         @Override
@@ -115,8 +115,15 @@ public class MapCollectors {
         }
 
         @Override
-        public void visit(List<ProviderInternal<? extends Map<? extends K, ? extends V>>> sources) {
-            sources.add(providerOfValue.map(v -> ImmutableMap.of(key, v)));
+        public void calculateExecutionTimeValue(Action<ExecutionTimeValue<? extends Map<? extends K, ? extends V>>> visitor) {
+            ExecutionTimeValue<? extends V> value = providerOfValue.calculateExecutionTimeValue();
+            if (value.isMissing()) {
+                visitor.execute(ExecutionTimeValue.missing());
+            } else if (value.isFixedValue()) {
+                visitor.execute(ExecutionTimeValue.fixedValue(ImmutableMap.of(key, value.getFixedValue())));
+            } else {
+                visitor.execute(ExecutionTimeValue.changingValue(value.getChangingValue().map(v -> ImmutableMap.of(key, v))));
+            }
         }
 
         @Override
@@ -151,8 +158,8 @@ public class MapCollectors {
         }
 
         @Override
-        public void visit(List<ProviderInternal<? extends Map<? extends K, ? extends V>>> sources) {
-            sources.add(Providers.of(entries));
+        public void calculateExecutionTimeValue(Action<ExecutionTimeValue<? extends Map<? extends K, ? extends V>>> sources) {
+            sources.execute(ExecutionTimeValue.fixedValue(entries));
         }
 
         @Override
@@ -196,8 +203,8 @@ public class MapCollectors {
         }
 
         @Override
-        public void visit(List<ProviderInternal<? extends Map<? extends K, ? extends V>>> sources) {
-            sources.add(providerOfEntries);
+        public void calculateExecutionTimeValue(Action<ExecutionTimeValue<? extends Map<? extends K, ? extends V>>> visitor) {
+            visitor.execute(providerOfEntries.calculateExecutionTimeValue());
         }
 
         @Override

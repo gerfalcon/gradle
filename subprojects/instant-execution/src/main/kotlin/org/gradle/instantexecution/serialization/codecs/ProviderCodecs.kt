@@ -44,8 +44,6 @@ import org.gradle.instantexecution.serialization.WriteContext
 import org.gradle.instantexecution.serialization.decodePreservingSharedIdentity
 import org.gradle.instantexecution.serialization.encodePreservingSharedIdentityOf
 import org.gradle.instantexecution.serialization.logPropertyProblem
-import org.gradle.instantexecution.serialization.readList
-import org.gradle.instantexecution.serialization.writeCollection
 
 
 /**
@@ -280,16 +278,16 @@ SetPropertyCodec(private val propertyFactory: PropertyFactory, private val provi
 
 
 class
-MapPropertyCodec(private val propertyFactory: PropertyFactory, private val providerCodec: Codec<ProviderInternal<*>>) : Codec<DefaultMapProperty<*, *>> {
+MapPropertyCodec(private val propertyFactory: PropertyFactory, private val providerCodec: FixedValueReplacingProviderCodec) : Codec<DefaultMapProperty<*, *>> {
     override suspend fun WriteContext.encode(value: DefaultMapProperty<*, *>) {
         // TODO - should write the key and value types
-        writeCollection(value.providers) { providerCodec.run { encode(it) } }
+        providerCodec.run { encodeValue(value.calculateExecutionTimeValue()) }
     }
 
     override suspend fun ReadContext.decode(): DefaultMapProperty<*, *> {
-        val providers = readList { providerCodec.run { decode() } }
+        val state = providerCodec.run { decodeValue() as ValueSupplier.ExecutionTimeValue<Map<Any, Any>> }
         return propertyFactory.mapProperty(Any::class.java, Any::class.java).apply {
-            providers(providers.uncheckedCast())
+            fromState(state)
         }
     }
 }

@@ -15,6 +15,7 @@
  */
 package org.gradle.api.internal.file
 
+import org.gradle.api.Action
 import org.gradle.api.Task
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.FileTree
@@ -306,37 +307,37 @@ class AbstractFileCollectionTest extends FileCollectionSpec {
 
     void elementsProviderHasNoDependenciesWhenThisHasNoDependencies() {
         def collection = new TestFileCollection()
-        def context = Mock(TaskDependencyResolveContext)
-
-        ProviderInternal elements = collection.elements
+        def action = Mock(Action)
+        def elements = collection.elements
 
         when:
-        def visited = elements.maybeVisitBuildDependencies(context)
+        def producer = elements.producer
+        producer.visitProducerTasks(action)
 
         then:
-        visited
-        1 * context.add(collection)
-        0 * context._
+        producer.known
+        0 * action._
 
         expect:
-        !elements.valueProducedByTask
+        !elements.calculateExecutionTimeValue().hasChangingContent()
     }
 
     void elementsProviderHasSameDependenciesAsThis() {
         def collection = new TestFileCollectionWithDependency()
-        def context = Mock(TaskDependencyResolveContext)
+        def action = Mock(Action)
         def task = Mock(TaskInternal)
         _ * dependency.visitDependencies(_) >> { TaskDependencyResolveContext c -> c.add(task) }
 
         def elements = collection.elements
 
         when:
-        def visited = elements.maybeVisitBuildDependencies(context)
+        def producer = elements.producer
+        producer.visitProducerTasks(action)
 
         then:
-        visited
-        1 * context.add(collection)
-        0 * context._
+        producer.known
+        1 * action.execute(task)
+        0 * action._
 
         expect:
         elements.calculateExecutionTimeValue().hasChangingContent()
