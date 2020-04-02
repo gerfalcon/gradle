@@ -45,6 +45,8 @@ public interface ValueSupplier {
 
         boolean isKnown();
 
+        boolean isProducesDifferentValueOverTime();
+
         void visitProducerTasks(Action<? super Task> visitor);
 
         default void visitContentProducerTasks(Action<? super Task> visitor) {
@@ -72,6 +74,10 @@ public interface ValueSupplier {
             return UNKNOWN_PRODUCER;
         }
 
+        static ValueProducer externalValue() {
+            return new ExternalValueProducer();
+        }
+
         /**
          * Value and its contents are produced by task.
          */
@@ -80,10 +86,26 @@ public interface ValueSupplier {
         }
 
         /**
-         * Value is produced from the properties of the task.
+         * Value is produced from the properties of the task, and carries an implicit dependency on the task
          */
         static ValueProducer taskState(Task task) {
             return new TaskProducer(task, false);
+        }
+    }
+
+    class ExternalValueProducer implements ValueProducer {
+        @Override
+        public boolean isKnown() {
+            return true;
+        }
+
+        @Override
+        public boolean isProducesDifferentValueOverTime() {
+            return true;
+        }
+
+        @Override
+        public void visitProducerTasks(Action<? super Task> visitor) {
         }
     }
 
@@ -99,6 +121,11 @@ public interface ValueSupplier {
         @Override
         public boolean isKnown() {
             return true;
+        }
+
+        @Override
+        public boolean isProducesDifferentValueOverTime() {
+            return false;
         }
 
         @Override
@@ -125,7 +152,12 @@ public interface ValueSupplier {
 
         @Override
         public boolean isKnown() {
-            return left.isKnown() || right.isKnown();
+            return left.isKnown() && right.isKnown();
+        }
+
+        @Override
+        public boolean isProducesDifferentValueOverTime() {
+            return left.isProducesDifferentValueOverTime() || right.isProducesDifferentValueOverTime();
         }
 
         @Override
@@ -142,6 +174,11 @@ public interface ValueSupplier {
         }
 
         @Override
+        public boolean isProducesDifferentValueOverTime() {
+            return false;
+        }
+
+        @Override
         public void visitProducerTasks(Action<? super Task> visitor) {
         }
     }
@@ -150,6 +187,11 @@ public interface ValueSupplier {
         @Override
         public boolean isKnown() {
             return true;
+        }
+
+        @Override
+        public boolean isProducesDifferentValueOverTime() {
+            return false;
         }
 
         @Override

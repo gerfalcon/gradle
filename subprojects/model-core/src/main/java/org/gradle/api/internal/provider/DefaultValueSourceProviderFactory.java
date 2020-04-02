@@ -176,7 +176,11 @@ public class DefaultValueSourceProviderFactory implements ValueSourceProviderFac
         @Override
         public ValueProducer getProducer() {
             // For now, assume value is never calculated from a task output
-            return ValueProducer.noProducer();
+            if (value != null) {
+                return ValueProducer.noProducer();
+            } else {
+                return ValueProducer.externalValue();
+            }
         }
 
         @Override

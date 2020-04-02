@@ -291,6 +291,11 @@ public abstract class AbstractFileCollection implements FileCollectionInternal {
                 }
 
                 @Override
+                public boolean isProducesDifferentValueOverTime() {
+                    return false;
+                }
+
+                @Override
                 public void visitProducerTasks(Action<? super Task> visitor) {
                     for (Task dependency : collection.getBuildDependencies().getDependencies(null)) {
                         visitor.execute(dependency);
