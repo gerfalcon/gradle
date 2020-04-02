@@ -47,6 +47,10 @@ public interface ValueSupplier {
 
         void visitProducerTasks(Action<? super Task> visitor);
 
+        default void visitContentProducerTasks(Action<? super Task> visitor) {
+            visitProducerTasks(visitor);
+        }
+
         default ValueProducer plus(ValueProducer producer) {
             if (this == NO_PRODUCER) {
                 return producer;
@@ -68,16 +72,28 @@ public interface ValueSupplier {
             return UNKNOWN_PRODUCER;
         }
 
+        /**
+         * Value and its contents are produced by task.
+         */
         static ValueProducer task(Task task) {
-            return new TaskProducer(task);
+            return new TaskProducer(task, true);
+        }
+
+        /**
+         * Value is produced from the properties of the task.
+         */
+        static ValueProducer taskState(Task task) {
+            return new TaskProducer(task, false);
         }
     }
 
     class TaskProducer implements ValueProducer {
         private final Task task;
+        private boolean content;
 
-        public TaskProducer(Task task) {
+        public TaskProducer(Task task, boolean content) {
             this.task = task;
+            this.content = content;
         }
 
         @Override
@@ -90,6 +106,12 @@ public interface ValueSupplier {
             visitor.execute(task);
         }
 
+        @Override
+        public void visitContentProducerTasks(Action<? super Task> visitor) {
+            if (content) {
+                visitor.execute(task);
+            }
+        }
     }
 
     class PlusProducer implements ValueProducer {

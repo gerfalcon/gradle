@@ -672,7 +672,7 @@ public class DefaultTaskContainer extends DefaultTaskCollection<Task> implements
 
         @Override
         public ValueProducer getProducer() {
-            return ValueProducer.task(get());
+            return ValueProducer.taskState(get());
         }
 
         @Override

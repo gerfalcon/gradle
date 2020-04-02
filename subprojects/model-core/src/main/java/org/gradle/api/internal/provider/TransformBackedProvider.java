@@ -78,7 +78,7 @@ public class TransformBackedProvider<OUT, IN> extends AbstractMinimalProvider<OU
     }
 
     private void beforeRead() {
-        provider.getProducer().visitProducerTasks(producer -> {
+        provider.getProducer().visitContentProducerTasks(producer -> {
             if (!producer.getState().getExecuted()) {
                 DeprecationLogger.deprecateAction(String.format("Querying the mapped value of %s before %s has completed", provider, producer))
                     .willBecomeAnErrorInGradle7()

@@ -204,7 +204,7 @@ public class DefaultTaskCollection<T extends Task> extends DefaultNamedDomainObj
 
         @Override
         public ValueProducer getProducer() {
-            return ValueProducer.task(get());
+            return ValueProducer.taskState(get());
         }
     }
 }
