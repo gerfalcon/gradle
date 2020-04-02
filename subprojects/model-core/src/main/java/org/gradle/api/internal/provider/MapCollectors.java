@@ -19,9 +19,6 @@ package org.gradle.api.internal.provider;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
-import org.gradle.api.Action;
-import org.gradle.api.Task;
-import org.gradle.api.internal.tasks.TaskDependencyResolveContext;
 
 import java.util.List;
 import java.util.Map;
@@ -61,17 +58,8 @@ public class MapCollectors {
         }
 
         @Override
-        public boolean maybeVisitBuildDependencies(TaskDependencyResolveContext context) {
-            return false;
-        }
-
-        @Override
-        public void visitProducerTasks(Action<? super Task> visitor) {
-        }
-
-        @Override
-        public boolean isValueProducedByTask() {
-            return false;
+        public ValueProducer getProducer() {
+            return ValueProducer.noProducer();
         }
 
         @Override
@@ -132,18 +120,8 @@ public class MapCollectors {
         }
 
         @Override
-        public boolean maybeVisitBuildDependencies(TaskDependencyResolveContext context) {
-            return providerOfValue.maybeVisitBuildDependencies(context);
-        }
-
-        @Override
-        public void visitProducerTasks(Action<? super Task> visitor) {
-            providerOfValue.visitProducerTasks(visitor);
-        }
-
-        @Override
-        public boolean isValueProducedByTask() {
-            return providerOfValue.isValueProducedByTask();
+        public ValueProducer getProducer() {
+            return providerOfValue.getProducer();
         }
     }
 
@@ -178,17 +156,8 @@ public class MapCollectors {
         }
 
         @Override
-        public boolean maybeVisitBuildDependencies(TaskDependencyResolveContext context) {
-            return false;
-        }
-
-        @Override
-        public void visitProducerTasks(Action<? super Task> visitor) {
-        }
-
-        @Override
-        public boolean isValueProducedByTask() {
-            return false;
+        public ValueProducer getProducer() {
+            return ValueProducer.noProducer();
         }
     }
 
@@ -232,18 +201,8 @@ public class MapCollectors {
         }
 
         @Override
-        public boolean maybeVisitBuildDependencies(TaskDependencyResolveContext context) {
-            return providerOfEntries.maybeVisitBuildDependencies(context);
-        }
-
-        @Override
-        public void visitProducerTasks(Action<? super Task> visitor) {
-            providerOfEntries.visitProducerTasks(visitor);
-        }
-
-        @Override
-        public boolean isValueProducedByTask() {
-            return providerOfEntries.isValueProducedByTask();
+        public ValueProducer getProducer() {
+            return providerOfEntries.getProducer();
         }
     }
 }

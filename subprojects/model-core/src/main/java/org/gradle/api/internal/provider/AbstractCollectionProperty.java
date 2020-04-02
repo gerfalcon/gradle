@@ -18,14 +18,11 @@ package org.gradle.api.internal.provider;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableCollection;
-import org.gradle.api.Action;
-import org.gradle.api.Task;
 import org.gradle.api.internal.provider.Collectors.ElementFromProvider;
 import org.gradle.api.internal.provider.Collectors.ElementsFromArray;
 import org.gradle.api.internal.provider.Collectors.ElementsFromCollection;
 import org.gradle.api.internal.provider.Collectors.ElementsFromCollectionProvider;
 import org.gradle.api.internal.provider.Collectors.SingleElement;
-import org.gradle.api.internal.tasks.TaskDependencyResolveContext;
 import org.gradle.api.provider.HasMultipleValues;
 import org.gradle.api.provider.Provider;
 import org.gradle.internal.Cast;
@@ -255,17 +252,8 @@ public abstract class AbstractCollectionProperty<T, C extends Collection<T>> ext
         }
 
         @Override
-        public boolean maybeVisitBuildDependencies(TaskDependencyResolveContext context) {
-            return true;
-        }
-
-        @Override
-        public void visitProducerTasks(Action<? super Task> visitor) {
-        }
-
-        @Override
-        public boolean isValueProducedByTask() {
-            return false;
+        public ValueProducer getProducer() {
+            return ValueProducer.noProducer();
         }
     }
 
@@ -291,17 +279,8 @@ public abstract class AbstractCollectionProperty<T, C extends Collection<T>> ext
         }
 
         @Override
-        public boolean maybeVisitBuildDependencies(TaskDependencyResolveContext context) {
-            return true;
-        }
-
-        @Override
-        public void visitProducerTasks(Action<? super Task> visitor) {
-        }
-
-        @Override
-        public boolean isValueProducedByTask() {
-            return false;
+        public ValueProducer getProducer() {
+            return ValueProducer.noProducer();
         }
     }
 
@@ -333,17 +312,8 @@ public abstract class AbstractCollectionProperty<T, C extends Collection<T>> ext
         }
 
         @Override
-        public boolean maybeVisitBuildDependencies(TaskDependencyResolveContext context) {
-            return true;
-        }
-
-        @Override
-        public void visitProducerTasks(Action<? super Task> visitor) {
-        }
-
-        @Override
-        public boolean isValueProducedByTask() {
-            return false;
+        public ValueProducer getProducer() {
+            return ValueProducer.noProducer();
         }
     }
 
@@ -381,18 +351,8 @@ public abstract class AbstractCollectionProperty<T, C extends Collection<T>> ext
         }
 
         @Override
-        public boolean isValueProducedByTask() {
-            return value.isValueProducedByTask();
-        }
-
-        @Override
-        public boolean maybeVisitBuildDependencies(TaskDependencyResolveContext context) {
-            return value.maybeVisitBuildDependencies(context);
-        }
-
-        @Override
-        public void visitProducerTasks(Action<? super Task> visitor) {
-            value.visitProducerTasks(visitor);
+        public ValueProducer getProducer() {
+            return value.getProducer();
         }
     }
 
@@ -431,22 +391,8 @@ public abstract class AbstractCollectionProperty<T, C extends Collection<T>> ext
         }
 
         @Override
-        public boolean maybeVisitBuildDependencies(TaskDependencyResolveContext context) {
-            if (left.maybeVisitBuildDependencies(context)) {
-                return right.maybeVisitBuildDependencies(context);
-            }
-            return false;
-        }
-
-        @Override
-        public void visitProducerTasks(Action<? super Task> visitor) {
-            left.visitProducerTasks(visitor);
-            right.visitProducerTasks(visitor);
-        }
-
-        @Override
-        public boolean isValueProducedByTask() {
-            return left.isValueProducedByTask() || right.isValueProducedByTask();
+        public ValueProducer getProducer() {
+            return left.getProducer().plus(right.getProducer());
         }
     }
 }

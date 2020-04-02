@@ -20,9 +20,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import org.gradle.api.Action;
-import org.gradle.api.Task;
-import org.gradle.api.internal.tasks.TaskDependencyResolveContext;
 import org.gradle.api.provider.MapProperty;
 import org.gradle.api.provider.Provider;
 import org.gradle.internal.Cast;
@@ -331,17 +328,8 @@ public class DefaultMapProperty<K, V> extends AbstractProperty<Map<K, V>, MapSup
         }
 
         @Override
-        public boolean maybeVisitBuildDependencies(TaskDependencyResolveContext context) {
-            return true;
-        }
-
-        @Override
-        public void visitProducerTasks(Action<? super Task> visitor) {
-        }
-
-        @Override
-        public boolean isValueProducedByTask() {
-            return false;
+        public ValueProducer getProducer() {
+            return ValueProducer.noProducer();
         }
     }
 
@@ -372,17 +360,8 @@ public class DefaultMapProperty<K, V> extends AbstractProperty<Map<K, V>, MapSup
         }
 
         @Override
-        public boolean maybeVisitBuildDependencies(TaskDependencyResolveContext context) {
-            return true;
-        }
-
-        @Override
-        public void visitProducerTasks(Action<? super Task> visitor) {
-        }
-
-        @Override
-        public boolean isValueProducedByTask() {
-            return false;
+        public ValueProducer getProducer() {
+            return ValueProducer.noProducer();
         }
     }
 
@@ -419,17 +398,8 @@ public class DefaultMapProperty<K, V> extends AbstractProperty<Map<K, V>, MapSup
         }
 
         @Override
-        public boolean isValueProducedByTask() {
-            return false;
-        }
-
-        @Override
-        public void visitProducerTasks(Action<? super Task> visitor) {
-        }
-
-        @Override
-        public boolean maybeVisitBuildDependencies(TaskDependencyResolveContext context) {
-            return true;
+        public ValueProducer getProducer() {
+            return ValueProducer.noProducer();
         }
     }
 
@@ -481,18 +451,8 @@ public class DefaultMapProperty<K, V> extends AbstractProperty<Map<K, V>, MapSup
         }
 
         @Override
-        public boolean isValueProducedByTask() {
-            return collector.isValueProducedByTask();
-        }
-
-        @Override
-        public boolean maybeVisitBuildDependencies(TaskDependencyResolveContext context) {
-            return collector.maybeVisitBuildDependencies(context);
-        }
-
-        @Override
-        public void visitProducerTasks(Action<? super Task> visitor) {
-            collector.visitProducerTasks(visitor);
+        public ValueProducer getProducer() {
+            return collector.getProducer();
         }
     }
 
@@ -535,22 +495,8 @@ public class DefaultMapProperty<K, V> extends AbstractProperty<Map<K, V>, MapSup
         }
 
         @Override
-        public boolean maybeVisitBuildDependencies(TaskDependencyResolveContext context) {
-            if (left.maybeVisitBuildDependencies(context)) {
-                return right.maybeVisitBuildDependencies(context);
-            }
-            return false;
-        }
-
-        @Override
-        public void visitProducerTasks(Action<? super Task> visitor) {
-            left.visitProducerTasks(visitor);
-            right.visitProducerTasks(visitor);
-        }
-
-        @Override
-        public boolean isValueProducedByTask() {
-            return left.isValueProducedByTask() || right.isValueProducedByTask();
+        public ValueProducer getProducer() {
+            return left.getProducer().plus(right.getProducer());
         }
     }
 }

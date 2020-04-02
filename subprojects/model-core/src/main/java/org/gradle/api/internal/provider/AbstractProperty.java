@@ -16,9 +16,7 @@
 
 package org.gradle.api.internal.provider;
 
-import org.gradle.api.Action;
 import org.gradle.api.Task;
-import org.gradle.api.internal.tasks.TaskDependencyResolveContext;
 import org.gradle.internal.Cast;
 import org.gradle.internal.Describables;
 import org.gradle.internal.DisplayName;
@@ -118,7 +116,7 @@ public abstract class AbstractProperty<T, S extends ValueSupplier> extends Abstr
     @Override
     public ExecutionTimeValue<? extends T> calculateExecutionTimeValue() {
         ExecutionTimeValue<? extends T> value = calculateOwnExecutionTimeValue();
-        if (getProducerTasks().isEmpty()) {
+        if (getProducerTask() == null) {
             return value;
         } else {
             return value.withChangingContent();
@@ -145,23 +143,12 @@ public abstract class AbstractProperty<T, S extends ValueSupplier> extends Abstr
     }
 
     @Override
-    public void visitProducerTasks(Action<? super Task> visitor) {
+    public ValueProducer getProducer() {
         Task task = getProducerTask();
         if (task != null) {
-            visitor.execute(task);
+            return ValueProducer.task(task);
         } else {
-            getSupplier().visitProducerTasks(visitor);
-        }
-    }
-
-    @Override
-    public boolean maybeVisitBuildDependencies(TaskDependencyResolveContext context) {
-        Task task = getProducerTask();
-        if (task != null) {
-            context.add(task);
-            return true;
-        } else {
-            return getSupplier().maybeVisitBuildDependencies(context);
+            return getSupplier().getProducer();
         }
     }
 
