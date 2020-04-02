@@ -20,10 +20,10 @@ import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import org.gradle.api.Action;
 import org.gradle.api.provider.Provider;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 public class Collectors {
     public interface ProvidedCollector<T> extends Collector<T> {
@@ -49,8 +49,8 @@ public class Collectors {
         }
 
         @Override
-        public void visit(List<ProviderInternal<? extends Iterable<? extends T>>> sources) {
-            sources.add(Providers.of(ImmutableList.of(element)));
+        public void calculateExecutionTimeValue(Action<? super ExecutionTimeValue<? extends Iterable<? extends T>>> visitor) {
+            visitor.execute(ExecutionTimeValue.fixedValue(ImmutableList.of(element)));
         }
 
         @Override
@@ -109,8 +109,13 @@ public class Collectors {
         }
 
         @Override
-        public void visit(List<ProviderInternal<? extends Iterable<? extends T>>> sources) {
-            sources.add(provider.map(e -> ImmutableList.of(e)));
+        public void calculateExecutionTimeValue(Action<? super ExecutionTimeValue<? extends Iterable<? extends T>>> visitor) {
+            ExecutionTimeValue<? extends T> value = provider.calculateExecutionTimeValue();
+            if (value.isMissing()) {
+                visitor.execute(ExecutionTimeValue.missing());
+            } else {
+                visitor.execute(ExecutionTimeValue.fixedValue(ImmutableList.of((T) value)));
+            }
         }
 
         @Override
@@ -160,8 +165,8 @@ public class Collectors {
         }
 
         @Override
-        public void visit(List<ProviderInternal<? extends Iterable<? extends T>>> sources) {
-            sources.add(Providers.of(value));
+        public void calculateExecutionTimeValue(Action<? super ExecutionTimeValue<? extends Iterable<? extends T>>> visitor) {
+            visitor.execute(ExecutionTimeValue.fixedValue(value));
         }
 
         @Override
@@ -215,8 +220,8 @@ public class Collectors {
         }
 
         @Override
-        public void visit(List<ProviderInternal<? extends Iterable<? extends T>>> sources) {
-            sources.add(provider);
+        public void calculateExecutionTimeValue(Action<? super ExecutionTimeValue<? extends Iterable<? extends T>>> visitor) {
+            visitor.execute(provider.calculateExecutionTimeValue());
         }
 
         @Override
@@ -277,8 +282,8 @@ public class Collectors {
         }
 
         @Override
-        public void visit(List<ProviderInternal<? extends Iterable<? extends T>>> sources) {
-            sources.add(Providers.of(ImmutableList.copyOf(value)));
+        public void calculateExecutionTimeValue(Action<? super ExecutionTimeValue<? extends Iterable<? extends T>>> visitor) {
+            visitor.execute(ExecutionTimeValue.fixedValue(ImmutableList.copyOf(value)));
         }
 
         @Override
@@ -328,8 +333,8 @@ public class Collectors {
         }
 
         @Override
-        public void visit(List<ProviderInternal<? extends Iterable<? extends T>>> sources) {
-            delegate.visit(sources);
+        public void calculateExecutionTimeValue(Action<? super ExecutionTimeValue<? extends Iterable<? extends T>>> visitor) {
+            delegate.calculateExecutionTimeValue(visitor);
         }
 
         @Override

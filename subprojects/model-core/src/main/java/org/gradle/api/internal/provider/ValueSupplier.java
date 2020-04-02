@@ -411,6 +411,14 @@ public interface ValueSupplier {
             return new FixedExecutionTimeValue<>(value, false);
         }
 
+        public static <T> ExecutionTimeValue<T> ofNullable(@Nullable T value) {
+            if (value == null) {
+                return missing();
+            } else {
+                return fixedValue(value);
+            }
+        }
+
         public static <T> ExecutionTimeValue<T> value(Value<T> value) {
             if (value.isMissing()) {
                 return missing();

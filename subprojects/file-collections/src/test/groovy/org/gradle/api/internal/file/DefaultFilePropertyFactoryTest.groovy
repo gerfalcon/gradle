@@ -20,7 +20,6 @@ import org.gradle.api.Action
 import org.gradle.api.Task
 import org.gradle.api.internal.provider.PropertyHost
 import org.gradle.api.internal.provider.ProviderInternal
-import org.gradle.api.internal.tasks.TaskDependencyResolveContext
 import org.gradle.internal.state.ModelObject
 import org.gradle.test.fixtures.file.TestFile
 import org.gradle.test.fixtures.file.TestNameTestDirectoryProvider

@@ -256,6 +256,11 @@ public class DefaultMapProperty<K, V> extends AbstractProperty<Map<K, V>, MapSup
         }
     }
 
+    @Override
+    protected ExecutionTimeValue<? extends Map<K, V>> calculateOwnExecutionTimeValue(MapSupplier<K, V> value) {
+        return ExecutionTimeValue.value(value.calculateValue());
+    }
+
     private class EntryProvider extends AbstractMinimalProvider<V> {
         private final K key;
 
@@ -329,7 +334,7 @@ public class DefaultMapProperty<K, V> extends AbstractProperty<Map<K, V>, MapSup
 
         @Override
         public ValueProducer getProducer() {
-            return ValueProducer.noProducer();
+            return ValueProducer.unknown();
         }
     }
 
@@ -399,7 +404,7 @@ public class DefaultMapProperty<K, V> extends AbstractProperty<Map<K, V>, MapSup
 
         @Override
         public ValueProducer getProducer() {
-            return ValueProducer.noProducer();
+            return ValueProducer.unknown();
         }
     }
 

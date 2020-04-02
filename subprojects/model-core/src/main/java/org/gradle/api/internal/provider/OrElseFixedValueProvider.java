@@ -42,7 +42,7 @@ class OrElseFixedValueProvider<T> extends AbstractProviderWithValue<T> {
             // Value is not available yet or is present
             return provider.getProducer();
         } else {
-            return ValueProducer.noProducer();
+            return ValueProducer.unknown();
         }
     }
 

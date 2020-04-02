@@ -1936,16 +1936,20 @@ The value of this provider is derived from:
         def task = Mock(Task)
         def property = propertyWithDefaultValue()
         property.set(someValue())
-        def mapped = property.map { it }
+        def mapped = property.map { someOtherValue() }
 
         expect:
         assertHasNoProducer(mapped)
-        mapped.calculateExecutionTimeValue().isFixedValue()
+        def value = mapped.calculateExecutionTimeValue()
+        value.isFixedValue()
+        value.fixedValue == someOtherValue()
 
         property.attachProducer(owner(task))
 
         assertHasProducer(mapped, task)
-        mapped.calculateExecutionTimeValue().isChangingValue()
+        def value2 = mapped.calculateExecutionTimeValue()
+        value2.isChangingValue()
+        value2.changingValue.get() == someOtherValue()
     }
 
     def "mapped value has no execution time value when producer task attached to original property with no value"() {
@@ -1968,16 +1972,20 @@ The value of this provider is derived from:
         def task = Mock(Task)
         def property = propertyWithDefaultValue()
         property.set(someValue())
-        def mapped = property.map { it }.map { it }.map { it }
+        def mapped = property.map { it }.map { it }.map { someOtherValue() }
 
         expect:
         assertHasNoProducer(mapped)
-        mapped.calculateExecutionTimeValue().isFixedValue()
+        def value = mapped.calculateExecutionTimeValue()
+        value.isFixedValue()
+        value.fixedValue == someOtherValue()
 
         property.attachProducer(owner(task))
 
         assertHasProducer(mapped, task)
-        mapped.calculateExecutionTimeValue().isChangingValue()
+        def value2 = mapped.calculateExecutionTimeValue()
+        value2.isChangingValue()
+        value2.changingValue.get() == someOtherValue()
     }
 
     def "mapped value has value producer when value is provider with content producer"() {
@@ -1986,11 +1994,13 @@ The value of this provider is derived from:
 
         def property = propertyWithNoValue()
         property.set(provider)
-        def mapped = property.map { it }
+        def mapped = property.map { someOtherValue() }
 
         expect:
         assertHasProducer(mapped, task)
-        mapped.calculateExecutionTimeValue().isChangingValue()
+        def value = mapped.calculateExecutionTimeValue()
+        value.isChangingValue()
+        value.changingValue.get() == someOtherValue()
     }
 
     def "fails when property has multiple producers attached"() {
