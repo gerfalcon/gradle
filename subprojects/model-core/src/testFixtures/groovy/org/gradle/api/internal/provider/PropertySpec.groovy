@@ -16,10 +16,9 @@
 
 package org.gradle.api.internal.provider
 
-
+import org.gradle.api.Action
 import org.gradle.api.Task
 import org.gradle.api.Transformer
-import org.gradle.api.internal.tasks.TaskDependencyResolveContext
 import org.gradle.api.provider.Provider
 import org.gradle.internal.Describables
 import org.gradle.internal.DisplayName
@@ -1901,74 +1900,36 @@ The value of this provider is derived from:
     }
 
     def "producer task for a property is not known when property has a fixed value"() {
-        def context = Mock(TaskDependencyResolveContext)
         def property = propertyWithNoValue()
         property.set(someValue())
 
-        when:
-        def known = property.maybeVisitBuildDependencies(context)
-
-        then:
-        !known
-        0 * context._
+        expect:
+        assertHasNoProducer(property)
     }
 
-    def "can define producer task for a property"() {
+    def "can attach a producer task to property"() {
         def task = Mock(Task)
-        def context = Mock(TaskDependencyResolveContext)
         def property = propertyWithNoValue()
         property.set(someValue())
+
+        expect:
+        assertHasNoProducer(property)
+
+        when:
         property.attachProducer(owner(task))
 
-        when:
-        def known = property.maybeVisitBuildDependencies(context)
-
         then:
-        known
-        1 * context.add(task)
-        0 * context._
+        assertHasProducer(property, task)
     }
 
-    def "has build dependencies when value is provider with producer task"() {
+    def "has producer task when value is provider with producer task"() {
         def task = Stub(Task)
         def provider = supplierWithProducer(task)
-        def context = Mock(TaskDependencyResolveContext)
-        def property = propertyWithNoValue()
-        property.set(provider)
-
-        when:
-        def known = property.maybeVisitBuildDependencies(context)
-
-        then:
-        known
-        1 * context.add(task)
-        0 * context._
-    }
-
-    def "has content producer when producer task attached"() {
-        def task = Mock(Task)
-        def property = propertyWithDefaultValue()
-
-        expect:
-        assertContentIsNotProducedByTask(property)
-        !property.valueProducedByTask
-
-        property.attachProducer(owner(task))
-
-        assertContentIsProducedByTask(property, task)
-        !property.valueProducedByTask
-    }
-
-    def "has content producer when value is provider with content producer"() {
-        def task = Mock(Task)
-        def provider = supplierWithProducer(task)
-
         def property = propertyWithNoValue()
         property.set(provider)
 
         expect:
-        assertContentIsProducedByTask(property, task)
-        !property.valueProducedByTask
+        assertHasProducer(property, task)
     }
 
     def "mapped value has changing execution time value when producer task attached to original property"() {
@@ -1978,12 +1939,12 @@ The value of this provider is derived from:
         def mapped = property.map { it }
 
         expect:
-        assertContentIsNotProducedByTask(mapped)
+        assertHasNoProducer(mapped)
         mapped.calculateExecutionTimeValue().isFixedValue()
 
         property.attachProducer(owner(task))
 
-        assertContentIsProducedByTask(mapped, task)
+        assertHasProducer(mapped, task)
         mapped.calculateExecutionTimeValue().isChangingValue()
     }
 
@@ -1994,12 +1955,12 @@ The value of this provider is derived from:
         def mapped = property.map { it }
 
         expect:
-        assertContentIsNotProducedByTask(mapped)
+        assertHasNoProducer(mapped)
         mapped.calculateExecutionTimeValue().isMissing()
 
         property.attachProducer(owner(task))
 
-        assertContentIsProducedByTask(mapped, task)
+        assertHasProducer(mapped, task)
         mapped.calculateExecutionTimeValue().isMissing()
     }
 
@@ -2010,12 +1971,12 @@ The value of this provider is derived from:
         def mapped = property.map { it }.map { it }.map { it }
 
         expect:
-        assertContentIsNotProducedByTask(mapped)
+        assertHasNoProducer(mapped)
         mapped.calculateExecutionTimeValue().isFixedValue()
 
         property.attachProducer(owner(task))
 
-        assertContentIsProducedByTask(mapped, task)
+        assertHasProducer(mapped, task)
         mapped.calculateExecutionTimeValue().isChangingValue()
     }
 
@@ -2028,7 +1989,7 @@ The value of this provider is derived from:
         def mapped = property.map { it }
 
         expect:
-        assertContentIsProducedByTask(mapped, task)
+        assertHasProducer(mapped, task)
         mapped.calculateExecutionTimeValue().isChangingValue()
     }
 
@@ -2068,7 +2029,7 @@ The value of this provider is derived from:
         property.attachProducer(owner)
 
         when:
-        property.maybeVisitBuildDependencies(Stub(TaskDependencyResolveContext))
+        property.producer.visitProducerTasks(Stub(Action))
 
         then:
         def e =  thrown(IllegalStateException)
@@ -2099,18 +2060,6 @@ The value of this provider is derived from:
         property.set(someOtherValue())
         copy.getOrNull() == null
         copy2.get() == someValue()
-    }
-
-    void assertContentIsNotProducedByTask(ProviderInternal<?> provider) {
-        def producers = []
-        provider.visitProducerTasks { producers.add(it) }
-        assert producers.isEmpty()
-    }
-
-    void assertContentIsProducedByTask(ProviderInternal<?> provider, Task task) {
-        def producers = []
-        provider.visitProducerTasks { producers.add(it) }
-        assert producers == [task]
     }
 
     ModelObject owner() {

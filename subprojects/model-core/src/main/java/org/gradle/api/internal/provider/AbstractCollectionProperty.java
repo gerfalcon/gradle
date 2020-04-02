@@ -313,7 +313,7 @@ public abstract class AbstractCollectionProperty<T, C extends Collection<T>> ext
 
         @Override
         public ValueProducer getProducer() {
-            return ValueProducer.noProducer();
+            return ValueProducer.unknown();
         }
     }
 

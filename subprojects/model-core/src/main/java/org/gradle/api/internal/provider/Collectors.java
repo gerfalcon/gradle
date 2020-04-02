@@ -55,7 +55,7 @@ public class Collectors {
 
         @Override
         public ValueProducer getProducer() {
-            return ValueProducer.noProducer();
+            return ValueProducer.unknown();
         }
 
         @Override
@@ -166,7 +166,7 @@ public class Collectors {
 
         @Override
         public ValueProducer getProducer() {
-            return ValueProducer.noProducer();
+            return ValueProducer.unknown();
         }
 
         @Override
@@ -283,7 +283,7 @@ public class Collectors {
 
         @Override
         public ValueProducer getProducer() {
-            return ValueProducer.noProducer();
+            return ValueProducer.unknown();
         }
 
         @Override
