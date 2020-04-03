@@ -195,7 +195,6 @@ public class ProviderConnection {
         LoggingServiceRegistry loggingServices = LoggingServiceRegistry.newNestedLogging();
         Parameters params = initParams(providerParameters);
         ServiceRegistry clientServices = daemonClientFactory.createMessageDaemonServices(loggingServices.get(OutputEventListener.class), params.daemonParams);
-        // TODO maybe force-stop after a timeout
         ((ShutdownCoordinator)clientServices.find(ShutdownCoordinator.class)).stop();
     }
 
