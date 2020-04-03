@@ -70,14 +70,12 @@ class GradleRunnerConventionalPluginClasspathInjectionEndUserIntegrationTest ext
         """
     }
 
-    @ToBeFixedForInstantExecution
     def "can test plugin and custom task as external files by using default conventions from Java Gradle plugin development plugin"() {
         expect:
         succeeds 'test'
         executedAndNotSkipped ':test'
     }
 
-    @ToBeFixedForInstantExecution
     def "can override plugin metadata location"() {
         when:
         buildFile << """

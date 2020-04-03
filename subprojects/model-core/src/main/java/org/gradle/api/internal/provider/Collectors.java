@@ -114,7 +114,7 @@ public class Collectors {
             if (value.isMissing()) {
                 visitor.execute(ExecutionTimeValue.missing());
             } else {
-                visitor.execute(ExecutionTimeValue.fixedValue(ImmutableList.of((T) value)));
+                visitor.execute(ExecutionTimeValue.fixedValue(ImmutableList.of(value.getFixedValue())));
             }
         }
 
