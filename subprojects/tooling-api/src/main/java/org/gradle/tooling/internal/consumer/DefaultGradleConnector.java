@@ -24,13 +24,18 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class DefaultGradleConnector extends GradleConnector {
+public class DefaultGradleConnector extends GradleConnector implements ProjectConnectionLifecycleListener {
     private static final Logger LOGGER = LoggerFactory.getLogger(GradleConnector.class);
     private final ConnectionFactory connectionFactory;
     private final DistributionFactory distributionFactory;
     private Distribution distribution;
+
+    private static List<DefaultProjectConnection> connections = new ArrayList<>(4);
+    private boolean stopped = false;
 
     private final DefaultConnectionParameters.Builder connectionParamsBuilder = DefaultConnectionParameters.builder();
 
@@ -57,8 +62,22 @@ public class DefaultGradleConnector extends GradleConnector {
         ConnectorServices.close();
     }
 
-    public static void disconnect() {
-        DefaultProjectConnection.closeAll();
+    @Override
+    public void connectionClosed(ProjectConnection connection) {
+        synchronized (connections) {
+            connections.remove(connection);
+        }
+    }
+
+    public void disconnect() {
+        // TODO move this method up to the interface
+        synchronized (connections) {
+            stopped = true;
+            for (DefaultProjectConnection connection : connections) {
+                // TODO cleanup
+                connection.closeNow();
+            }
+        }
     }
 
     @Override
@@ -147,7 +166,16 @@ public class DefaultGradleConnector extends GradleConnector {
         if (distribution == null) {
             distribution = distributionFactory.getDefaultDistribution(connectionParameters.getProjectDir(), connectionParameters.isSearchUpwards() != null ? connectionParameters.isSearchUpwards() : true);
         }
-        return connectionFactory.create(distribution, connectionParameters);
+
+        synchronized (connections) {
+            if (stopped) {
+                throw new IllegalStateException("Connection was stopped");
+            }
+
+            ProjectConnection connection = connectionFactory.create(distribution, connectionParameters, this);
+            connections.add((DefaultProjectConnection) connection);
+            return connection;
+        }
     }
 
     ConnectionFactory getConnectionFactory() {

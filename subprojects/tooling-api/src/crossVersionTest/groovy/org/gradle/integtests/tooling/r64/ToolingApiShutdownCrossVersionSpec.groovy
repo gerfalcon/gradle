@@ -19,8 +19,7 @@ package org.gradle.integtests.tooling.r64
 import org.gradle.integtests.tooling.CancellationSpec
 import org.gradle.integtests.tooling.fixture.TestResultHandler
 import org.gradle.integtests.tooling.fixture.ToolingApiVersion
-import org.gradle.tooling.ProjectConnection
-import org.gradle.tooling.internal.consumer.DefaultGradleConnector
+import org.gradle.tooling.GradleConnector
 import org.gradle.tooling.model.eclipse.EclipseProject
 import spock.util.concurrent.PollingConditions
 
@@ -49,12 +48,13 @@ class ToolingApiShutdownCrossVersionSpec extends CancellationSpec {
         def resultHandler = new TestResultHandler()
 
         when:
-        withConnection { ProjectConnection connection ->
+        GradleConnector connector = toolingApi.connector()
+        withConnection(connector) { connection ->
             def build = connection.newBuild()
             build.forTasks('hang')
             build.run(resultHandler)
             sync.waitForAllPendingCalls(resultHandler)
-            DefaultGradleConnector.disconnect()
+            connector.disconnect()
             resultHandler.finished()
         }
 
@@ -83,11 +83,12 @@ class ToolingApiShutdownCrossVersionSpec extends CancellationSpec {
         def resultHandler = new TestResultHandler()
 
         when:
-        withConnection { ProjectConnection connection ->
+        GradleConnector connector = toolingApi.connector()
+        withConnection(connector) { connection ->
             def query = connection.model(EclipseProject)
             query.get(resultHandler)
             sync.waitForAllPendingCalls(resultHandler)
-            DefaultGradleConnector.disconnect()
+            connector.disconnect()
             resultHandler.finished()
         }
 

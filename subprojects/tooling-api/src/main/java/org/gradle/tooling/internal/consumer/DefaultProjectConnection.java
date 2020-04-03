@@ -35,31 +35,27 @@ import java.util.concurrent.CopyOnWriteArrayList;
 class DefaultProjectConnection implements ProjectConnection {
     private final AsyncConsumerActionExecutor connection;
     private final ConnectionParameters parameters;
+    private final ProjectConnectionLifecycleListener listener;
 
     private static final CopyOnWriteArrayList<DefaultProjectConnection> openInstances = new CopyOnWriteArrayList<>();
 
-    public DefaultProjectConnection(AsyncConsumerActionExecutor connection, ConnectionParameters parameters) {
+    public DefaultProjectConnection(AsyncConsumerActionExecutor connection, ConnectionParameters parameters, ProjectConnectionLifecycleListener listener) {
         this.connection = connection;
         this.parameters = parameters;
-        openInstances.add(this);
+        this.listener = listener;
     }
 
     @Override
     public void close() {
         connection.stop();
-        synchronized (openInstances) {
-            openInstances.remove(this);
-        }
+        listener.connectionClosed(this);
     }
 
-    static void closeAll() {
-        // TODO test what happens if this called before running a build
-        synchronized (openInstances) {
-            openInstances.forEach(it -> {
-                it.connection.stopNow();
-                it.connection.stopWhenIdle();
-            });
-        }
+    void closeNow() {
+        // TODO no-op when close() was called
+        // TODO can we make it one method? something like stopRequest: for new clients it would send a StopWhenIdle and it would request cancellation for all clients
+        connection.stopNow();
+        connection.stopWhenIdle();
     }
 
     @Override
