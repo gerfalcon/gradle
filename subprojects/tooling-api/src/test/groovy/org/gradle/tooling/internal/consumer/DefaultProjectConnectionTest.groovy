@@ -20,12 +20,12 @@ import org.gradle.tooling.model.GradleProject
 import spock.lang.Ignore
 import spock.lang.Specification
 
-@Ignore // TODO fix test
 class DefaultProjectConnectionTest extends Specification {
     final AsyncConsumerActionExecutor protocolConnection = Mock()
     final ConnectionParameters parameters = Stub() {
         getProjectDir() >> new File("foo")
     }
+    final ProjectConnectionLifecycleListener listener = Mock()
 
     final DefaultProjectConnection connection = new DefaultProjectConnection(protocolConnection, parameters, listener)
 
@@ -54,6 +54,7 @@ class DefaultProjectConnectionTest extends Specification {
 
         then:
         1 * protocolConnection.stop()
+        1 * listener.connectionClosed(connection)
     }
 
     def "can create phased build action builder"() {
