@@ -17,7 +17,6 @@ package org.gradle.tooling.internal.consumer
 
 import org.gradle.tooling.internal.consumer.async.AsyncConsumerActionExecutor
 import org.gradle.tooling.model.GradleProject
-import spock.lang.Ignore
 import spock.lang.Specification
 
 class DefaultProjectConnectionTest extends Specification {

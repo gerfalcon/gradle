@@ -16,11 +16,6 @@
 
 package org.gradle.tooling.internal.protocol;
 
-import org.gradle.tooling.GradleConnectionException;
-import org.gradle.tooling.UnsupportedVersionException;
-
-import java.util.List;
-
 /**
  * @since 6.4
  * @see ConnectionVersion4

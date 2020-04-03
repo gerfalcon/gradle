@@ -30,14 +30,11 @@ import org.gradle.tooling.internal.consumer.parameters.ConsumerOperationParamete
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 class DefaultProjectConnection implements ProjectConnection {
     private final AsyncConsumerActionExecutor connection;
     private final ConnectionParameters parameters;
     private final ProjectConnectionLifecycleListener listener;
-
-    private static final CopyOnWriteArrayList<DefaultProjectConnection> openInstances = new CopyOnWriteArrayList<>();
 
     public DefaultProjectConnection(AsyncConsumerActionExecutor connection, ConnectionParameters parameters, ProjectConnectionLifecycleListener listener) {
         this.connection = connection;
