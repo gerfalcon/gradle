@@ -81,13 +81,9 @@ public class LazyConsumerActionExecutor implements ConsumerActionExecutor {
                 cancellationToken.cancel();
             }
             stopped = true;
-//            for (Thread thread : executing) {
-//                thread.interrupt();
-//            }
         } finally {
             lock.unlock();
         }
-        // TODO where should we invoke StopWhenIdle?
     }
 
     @Override
