@@ -38,7 +38,7 @@ public interface AsyncConsumerActionExecutor {
     String getDisplayName();
 
     /**
-     * TODO documentation and maybe rename.
+     * Requests cancellation on the current operation and send a 'stop when idle' message to the daemon.
      */
     void disconnect();
 }
