@@ -28,7 +28,7 @@ import org.gradle.tooling.internal.protocol.InternalStopWhenIdleConnection;
  *
  * <p>Used for providers >= 6.4.</p>
  */
-public class StopWhenIdleConsumerConnection extends PhasedActionAwareConsumerConnection {
+public class StopWhenIdleConsumerConnection extends NotifyDaemonsAboutChangedPathsConsumerConnection {
     public StopWhenIdleConsumerConnection(ConnectionVersion4 delegate, ModelMapping modelMapping, ProtocolToModelAdapter adapter) {
         super(delegate, modelMapping, adapter);
     }
