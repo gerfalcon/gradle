@@ -216,7 +216,7 @@ public class DefaultValueSourceProviderFactory implements ValueSourceProviderFac
         @Override
         public ExecutionTimeValue<T> calculateExecutionTimeValue() {
             if (value != null) {
-                return ExecutionTimeValue.fixedValue(value.get());
+                return ExecutionTimeValue.ofNullable(value.get());
             } else {
                 return ExecutionTimeValue.changingValue(this);
             }
