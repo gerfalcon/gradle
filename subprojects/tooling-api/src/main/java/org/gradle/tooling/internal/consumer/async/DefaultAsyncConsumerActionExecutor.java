@@ -57,13 +57,8 @@ public class DefaultAsyncConsumerActionExecutor implements AsyncConsumerActionEx
     }
 
     @Override
-    public void stopNow() {
-        actionExecutor.stopNow();
-    }
-
-    @Override
-    public void stopWhenIdle() {
-        actionExecutor.stopWhenIdle();
+    public void disconnect() {
+        actionExecutor.disconnect();
     }
 
     @Override

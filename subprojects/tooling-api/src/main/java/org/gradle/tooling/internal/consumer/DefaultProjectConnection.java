@@ -51,11 +51,10 @@ class DefaultProjectConnection implements ProjectConnection {
         listener.connectionClosed(this);
     }
 
-    void closeNow() {
+    void disconnect() {
         // TODO no-op when close() was called
-        // TODO can we make it one method? something like stopRequest: for new clients it would send a StopWhenIdle and it would request cancellation for all clients
-        connection.stopNow();
-        connection.stopWhenIdle();
+        connection.disconnect();
+        listener.connectionClosed(this);
     }
 
     @Override

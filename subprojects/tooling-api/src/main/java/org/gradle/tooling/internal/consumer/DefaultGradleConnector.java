@@ -83,7 +83,7 @@ public class DefaultGradleConnector extends GradleConnector implements ProjectCo
         synchronized (connections) {
             stopped = true;
             for (DefaultProjectConnection connection : connections) {
-                connection.closeNow();
+                connection.disconnect();
             }
         }
     }

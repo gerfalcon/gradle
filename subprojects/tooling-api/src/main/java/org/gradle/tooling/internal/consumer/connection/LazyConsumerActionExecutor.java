@@ -74,7 +74,19 @@ public class LazyConsumerActionExecutor implements ConsumerActionExecutor {
         }
     }
 
-    public void stopNow() {
+    @Override
+    public void disconnect() {
+        lock.lock();
+        try {
+            stopped = true;
+            requestCancellation();
+            sendStopWhenIdleMessageToDaemons();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private void requestCancellation() {
         lock.lock();
         try {
             if (cancellationToken != null) {
@@ -86,8 +98,7 @@ public class LazyConsumerActionExecutor implements ConsumerActionExecutor {
         }
     }
 
-    @Override
-    public void stopWhenIdle() {
+    private void sendStopWhenIdleMessageToDaemons() {
         ConsumerOperationParameters.Builder builder = ConsumerOperationParameters.builder();
         builder.setCancellationToken(new DefaultCancellationTokenSource().token());
         builder.setParameters(connectionParameters);

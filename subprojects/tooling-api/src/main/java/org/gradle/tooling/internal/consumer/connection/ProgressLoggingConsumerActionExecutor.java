@@ -43,11 +43,6 @@ public class ProgressLoggingConsumerActionExecutor implements ConsumerActionExec
     }
 
     @Override
-    public void stopNow() {
-        actionExecutor.stopNow();
-    }
-
-    @Override
     public String getDisplayName() {
         return actionExecutor.getDisplayName();
     }
@@ -73,8 +68,8 @@ public class ProgressLoggingConsumerActionExecutor implements ConsumerActionExec
     }
 
     @Override
-    public void stopWhenIdle() {
-        actionExecutor.stopWhenIdle();
+    public void disconnect() {
+        actionExecutor.disconnect();
     }
 
     private static class ProgressListenerAdapter implements ProgressListener {

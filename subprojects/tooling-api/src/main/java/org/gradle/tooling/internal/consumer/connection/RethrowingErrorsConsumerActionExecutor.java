@@ -41,12 +41,7 @@ public class RethrowingErrorsConsumerActionExecutor implements ConsumerActionExe
     }
 
     @Override
-    public void stopNow() {
-        delegate.stopNow();
-    }
-
-    @Override
-    public void stopWhenIdle() {
-        delegate.stopWhenIdle();
+    public void disconnect() {
+        delegate.disconnect();
     }
 }
