@@ -44,14 +44,6 @@ public class DefaultAsyncConsumerActionExecutor implements AsyncConsumerActionEx
 
     @Override
     public void stop() {
-        /* (Donat) Instead of introducing a new API, shouldn't we just change this
-            method to request cancellation and send a StopWhenIdle message for newer
-            clients?
-        */
-
-        /* (Donat) Maybe introduce a timeout when sending StoWhenIdle message and then send a Stop.
-         */
-
         // TODO instead of stopping the current build, request cancellation and send a stopWhenIdle
         CompositeStoppable.stoppable(lifecycle, executor, actionExecutor).stop();
     }
