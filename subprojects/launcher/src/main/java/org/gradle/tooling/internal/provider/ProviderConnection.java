@@ -207,6 +207,7 @@ public class ProviderConnection {
         try {
             BuildActionExecuter<ProviderOperationParameters> executer = createExecuter(providerParameters, parameters);
             boolean interactive = providerParameters.getStandardInput() != null;
+            // TODO inject a different metadata here
             BuildRequestContext buildRequestContext = new DefaultBuildRequestContext(new DefaultBuildRequestMetaData(providerParameters.getStartTime(), interactive), cancellationToken, buildEventConsumer);
             BuildActionResult result = executer.execute(action, buildRequestContext, providerParameters, sharedServices);
             throwFailure(result);
