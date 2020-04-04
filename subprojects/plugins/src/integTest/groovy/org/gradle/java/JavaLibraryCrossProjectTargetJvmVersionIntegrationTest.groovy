@@ -17,6 +17,7 @@
 package org.gradle.java
 
 import org.gradle.integtests.fixtures.AbstractIntegrationSpec
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.resolve.ResolveTestFixture
 import spock.lang.Unroll
 
@@ -41,6 +42,7 @@ class JavaLibraryCrossProjectTargetJvmVersionIntegrationTest extends AbstractInt
         resolve.prepare()
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can fail resolution if producer doesn't have appropriate target version"() {
         file('producer/build.gradle') << """
             java {
@@ -76,6 +78,7 @@ class JavaLibraryCrossProjectTargetJvmVersionIntegrationTest extends AbstractInt
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can select the most appropriate producer variant (#expected) based on target compatibility (#requested)"() {
         file('producer/build.gradle') << """
             // avoid test noise so that typically version 8 is not selected when running on JDK 8
@@ -133,6 +136,7 @@ class JavaLibraryCrossProjectTargetJvmVersionIntegrationTest extends AbstractInt
         expected = "apiElementsJdk$selected"
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can disable automatic setting of target JVM attribute"() {
         file("producer/build.gradle") << """
             java {
