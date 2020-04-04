@@ -16,6 +16,7 @@
 package org.gradle.integtests.resolve.constraints
 
 import org.gradle.integtests.fixtures.AbstractIntegrationSpec
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.resolve.ResolveTestFixture
 
 /**
@@ -44,6 +45,7 @@ class DependencyConstraintsAndResolutionStrategiesIntegrationTest extends Abstra
         mavenRepo.module("org", "bar", '1.0').dependsOn(foo11).publish()
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "force resolution strategy is applied to dependency constraints"() {
         given:
         buildFile << """
@@ -72,6 +74,7 @@ class DependencyConstraintsAndResolutionStrategiesIntegrationTest extends Abstra
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "fail-on-conflict resolution strategy is applied to dependency constraints"() {
         given:
         buildFile << """
@@ -94,6 +97,7 @@ class DependencyConstraintsAndResolutionStrategiesIntegrationTest extends Abstra
   - org:foo between versions 1.1 and 1.0"""
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency substitution rules are applied to dependency constraints"() {
         given:
         buildFile << """
@@ -124,6 +128,7 @@ class DependencyConstraintsAndResolutionStrategiesIntegrationTest extends Abstra
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency resolve rules are applied to dependency constraints"() {
         given:
         buildFile << """
@@ -156,6 +161,7 @@ class DependencyConstraintsAndResolutionStrategiesIntegrationTest extends Abstra
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "module replacement rules are applied to dependency constraints"() {
         given:
         buildFile << """
