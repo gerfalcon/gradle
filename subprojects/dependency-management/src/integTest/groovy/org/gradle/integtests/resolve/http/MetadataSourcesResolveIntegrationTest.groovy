@@ -18,12 +18,14 @@ package org.gradle.integtests.resolve.http
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 import org.gradle.test.fixtures.HttpRepository
 
 class MetadataSourcesResolveIntegrationTest extends AbstractModuleDependencyResolveTest {
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can resolve with only gradle metadata"() {
         buildFile << """
             repositories.all {
@@ -63,6 +65,7 @@ class MetadataSourcesResolveIntegrationTest extends AbstractModuleDependencyReso
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can resolve with only repository-specific metadata"() {
         def metadataSource = useIvy() ? "ivyDescriptor" : "mavenPom"
         buildFile << """
@@ -105,6 +108,7 @@ class MetadataSourcesResolveIntegrationTest extends AbstractModuleDependencyReso
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can resolve with only artifact metadata"() {
         buildFile << """
             repositories.all {
@@ -147,6 +151,7 @@ class MetadataSourcesResolveIntegrationTest extends AbstractModuleDependencyReso
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "will only search for defined metadata sources"() {
         def metadataSource = isGradleMetadataPublished() ? "gradleMetadata" : useIvy() ? "ivyDescriptor" : "mavenPom"
         def metadataType = isGradleMetadataPublished() ? HttpRepository.MetadataType.ONLY_GRADLE : HttpRepository.MetadataType.ONLY_ORIGINAL
