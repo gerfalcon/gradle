@@ -303,6 +303,7 @@ task check {
         succeeds "check"
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "a constraint should not prevent the selection of an explicit Ivy configuration (both direct and transitive)"() {
         settingsFile << """
             rootProject.name = 'test'
