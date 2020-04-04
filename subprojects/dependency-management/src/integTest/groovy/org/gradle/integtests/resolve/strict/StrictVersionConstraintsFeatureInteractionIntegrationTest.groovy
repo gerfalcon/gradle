@@ -17,6 +17,7 @@ package org.gradle.integtests.resolve.strict
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 
 class StrictVersionConstraintsFeatureInteractionIntegrationTest extends AbstractModuleDependencyResolveTest {
@@ -25,6 +26,7 @@ class StrictVersionConstraintsFeatureInteractionIntegrationTest extends Abstract
         resolve.withStrictReasonsCheck()
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can turn constraint into strict constraint by using a component metadata rule"() {
         given:
         repository {
@@ -87,6 +89,7 @@ class StrictVersionConstraintsFeatureInteractionIntegrationTest extends Abstract
     }
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value="true")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can turn strict constraint into normal constraint by using a component metadata rule"() {
         given:
         repository {
@@ -151,6 +154,7 @@ class StrictVersionConstraintsFeatureInteractionIntegrationTest extends Abstract
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "an ancestor provided versions is not a version conflict"() {
         given:
         repository {
@@ -197,6 +201,7 @@ class StrictVersionConstraintsFeatureInteractionIntegrationTest extends Abstract
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "cannot force a version over an ancestor provided version"() {
         given:
         repository {
@@ -238,6 +243,7 @@ class StrictVersionConstraintsFeatureInteractionIntegrationTest extends Abstract
    Constraint path ':test:unspecified' --> 'org:bar:{strictly 1.0}'"""
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can force a version over an ancestor provided version via resolution strategy"() {
         given:
         repository {
@@ -286,6 +292,7 @@ class StrictVersionConstraintsFeatureInteractionIntegrationTest extends Abstract
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "strict version constraints apply to modules provided through substitution"() {
         given:
         repository {
@@ -333,6 +340,7 @@ class StrictVersionConstraintsFeatureInteractionIntegrationTest extends Abstract
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "strict version constraints apply to modules provided through substitution with version selector"() {
         given:
         repository {
@@ -398,6 +406,7 @@ class StrictVersionConstraintsFeatureInteractionIntegrationTest extends Abstract
     }
 
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "dependency resolve rules dominate over strict version constraints"() {
         given:
         repository {
@@ -448,6 +457,7 @@ class StrictVersionConstraintsFeatureInteractionIntegrationTest extends Abstract
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "a substitution does not leak substituted strict version constraint"() {
         given:
         repository {
