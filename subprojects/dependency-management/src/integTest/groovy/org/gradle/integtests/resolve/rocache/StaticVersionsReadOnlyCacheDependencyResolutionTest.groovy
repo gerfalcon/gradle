@@ -17,6 +17,7 @@
 package org.gradle.integtests.resolve.rocache
 
 import org.gradle.api.internal.artifacts.ivyservice.CacheLayout
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.test.fixtures.server.http.MavenHttpModule
 import org.gradle.test.fixtures.server.http.MavenHttpRepository
 import spock.lang.Unroll
@@ -28,6 +29,7 @@ class StaticVersionsReadOnlyCacheDependencyResolutionTest extends AbstractReadOn
         true
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "fetches dependencies from read-only cache"() {
         given:
         buildFile << """
@@ -51,6 +53,7 @@ class StaticVersionsReadOnlyCacheDependencyResolutionTest extends AbstractReadOn
         assertInReadOnlyCache('core-1.0.jar')
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "missing dependencies are added to writable cache"() {
         given:
         def other = mavenHttpRepo.module('org.other', 'other', '1.0').withModuleMetadata().publish()
@@ -84,6 +87,7 @@ class StaticVersionsReadOnlyCacheDependencyResolutionTest extends AbstractReadOn
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can recover from corrupt read-only cache (#file)"() {
         given:
         def core = mavenHttpRepo.module('org.readonly', 'core', '1.0')
@@ -125,6 +129,7 @@ class StaticVersionsReadOnlyCacheDependencyResolutionTest extends AbstractReadOn
         ]
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "fetches javadocs and sources from read-only cache"() {
         given:
         buildFile << """
