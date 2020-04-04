@@ -19,6 +19,7 @@ package org.gradle.integtests.resolve.capabilities
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 import spock.lang.Unroll
 
@@ -26,6 +27,7 @@ class CapabilitiesConflictResolutionIntegrationTest extends AbstractModuleDepend
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reasonable error message when a user rule throws an exception (#rule)"() {
         given:
         repository {
@@ -84,6 +86,7 @@ class CapabilitiesConflictResolutionIntegrationTest extends AbstractModuleDepend
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can express preference for capabilities declared in published modules (#rule)"() {
         given:
         repository {
@@ -148,6 +151,7 @@ class CapabilitiesConflictResolutionIntegrationTest extends AbstractModuleDepend
     }
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can express preference for a certain variant with capabilities declared in published modules"() {
         given:
         repository {
@@ -202,6 +206,7 @@ class CapabilitiesConflictResolutionIntegrationTest extends AbstractModuleDepend
     }
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "expressing a preference for a variant with capabilities declared in a published modules does not evict unrelated variants"() {
         given:
         repository {
