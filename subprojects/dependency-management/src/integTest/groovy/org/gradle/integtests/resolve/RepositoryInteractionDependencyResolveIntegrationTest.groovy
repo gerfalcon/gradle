@@ -16,6 +16,7 @@
 package org.gradle.integtests.resolve
 
 import org.gradle.integtests.fixtures.AbstractHttpDependencyResolutionTest
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.publish.RemoteRepositorySpec
 import org.gradle.integtests.fixtures.resolve.ResolveTestFixture
 import org.gradle.test.fixtures.HttpRepository
@@ -201,6 +202,7 @@ class RepositoryInteractionDependencyResolveIntegrationTest extends AbstractHttp
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "selects #testVariant variant of each dependency in every repo supporting it #chain"() {
         given:
         setupRepositories(REPO_TYPES)
@@ -242,6 +244,7 @@ class RepositoryInteractionDependencyResolveIntegrationTest extends AbstractHttp
         [chain, testVariant] << [REPO_TYPES.permutations(), TEST_VARIANTS.keySet()].combinations()
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "explicit compile configuration selection works for a chain of pure maven dependencies"() {
         given:
         def modules = ['mavenCompile1', 'mavenCompile2', 'mavenCompile3']
@@ -274,6 +277,7 @@ class RepositoryInteractionDependencyResolveIntegrationTest extends AbstractHttp
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "explicit compile configuration selection with Gradle metadata is propagates to Maven dependencies"() {
         given:
         def modules = ['mavenCompile1', 'mavenCompile2', 'maven-gradle', 'maven']
@@ -310,6 +314,7 @@ class RepositoryInteractionDependencyResolveIntegrationTest extends AbstractHttp
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "explicit #conf configuration selection still works for maven dependencies"() {
         given:
         def modules = ['maven', 'mavenCompile1', 'maven-gradle', 'mavenCompile2']
@@ -351,6 +356,7 @@ class RepositoryInteractionDependencyResolveIntegrationTest extends AbstractHttp
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "explicit configuration selection in ivy modules is supported=#supported if targeting a #target module"() {
         given:
         String targetRepoName = supported? "$target-select" : target //use a different name if selection is supported to not follow the default expectations defined in leaksRuntime()
