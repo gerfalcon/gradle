@@ -28,6 +28,7 @@ class DependencyLockingLenientModeIntegrationTest extends AbstractLockingIntegra
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def 'does not fail when lock file conflicts with declared strict constraint'() {
         given:
         mavenRepo.module('org', 'foo', '1.0').publish()
@@ -82,6 +83,7 @@ dependencies {
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def 'does not fail when lock file conflicts with declared version constraint'() {
         given:
         mavenRepo.module('org', 'foo', '1.0').publish()
@@ -134,6 +136,7 @@ dependencies {
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def 'does not fail when lock file contains entry that is not in resolution result'() {
 
         given:
@@ -185,6 +188,7 @@ dependencies {
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def 'does not fail when lock file does not contain entry for module in resolution result'() {
         given:
         mavenRepo.module('org', 'foo', '1.0').publish()
@@ -237,6 +241,7 @@ dependencies {
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def 'does not fail when resolution result is empty and lock file contains entries'() {
         given:
         mavenRepo.module('org', 'foo', '1.0').publish()
