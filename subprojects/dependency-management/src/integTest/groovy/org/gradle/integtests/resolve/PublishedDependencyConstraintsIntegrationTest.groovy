@@ -17,6 +17,7 @@ package org.gradle.integtests.resolve
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 
 class PublishedDependencyConstraintsIntegrationTest extends AbstractModuleDependencyResolveTest {
 
@@ -25,6 +26,7 @@ class PublishedDependencyConstraintsIntegrationTest extends AbstractModuleDepend
     }
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value="false")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "published dependency constraint is ignored when Gradle module metadata is not available"() {
         given:
         repository {
@@ -66,6 +68,7 @@ class PublishedDependencyConstraintsIntegrationTest extends AbstractModuleDepend
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency constraint is not included in resolution without a hard dependency"() {
         given:
         def available = featureAvailable()
@@ -100,6 +103,7 @@ class PublishedDependencyConstraintsIntegrationTest extends AbstractModuleDepend
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency constraint is included into the result of resolution when a hard dependency is also added"() {
         given:
         def available = featureAvailable()
@@ -161,6 +165,7 @@ class PublishedDependencyConstraintsIntegrationTest extends AbstractModuleDepend
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency constraint is included into the result of resolution when a hard dependency is also added transitively"() {
         given:
         def available = featureAvailable()
@@ -227,6 +232,7 @@ class PublishedDependencyConstraintsIntegrationTest extends AbstractModuleDepend
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "range resolution kicks in with dependency constraints"() {
         given:
         def available = featureAvailable()
@@ -297,6 +303,7 @@ class PublishedDependencyConstraintsIntegrationTest extends AbstractModuleDepend
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "transitive dependencies of a dependency constraint do not participate in conflict resolution if it is not included elsewhere"() {
         given:
         def available = featureAvailable()
@@ -341,6 +348,7 @@ class PublishedDependencyConstraintsIntegrationTest extends AbstractModuleDepend
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency constraint on substituted module is recognized properly"() {
         given:
         def available = featureAvailable()
@@ -403,6 +411,7 @@ class PublishedDependencyConstraintsIntegrationTest extends AbstractModuleDepend
 
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value="true")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "deferred selector still resolved when constraint disappears"() {
         repository {
             'org:bar:1.0'()
