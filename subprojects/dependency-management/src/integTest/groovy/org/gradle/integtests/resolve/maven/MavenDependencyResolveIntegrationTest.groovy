@@ -17,6 +17,7 @@ package org.gradle.integtests.resolve.maven
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 
 
@@ -25,6 +26,7 @@ class MavenDependencyResolveIntegrationTest extends AbstractModuleDependencyReso
 
     String getRootProjectName() { 'testproject' }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "dependency includes main artifact and runtime dependencies of referenced module"() {
         given:
         repository {
@@ -68,6 +70,7 @@ dependencies {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "dependency that references a classifier includes the matching artifact only plus the runtime dependencies of referenced module"() {
         given:
         repository {
@@ -119,6 +122,7 @@ dependencies {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "dependency that references an artifact includes the matching artifact only plus the runtime dependencies of referenced module"() {
         given:
         repository {
@@ -193,6 +197,7 @@ dependencies {
 
     // only available with Maven metadata: Gradle metadata does not support "optional"
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "false")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "does not include optional dependencies of maven module"() {
         given:
         repository {
