@@ -17,6 +17,7 @@
 package org.gradle.integtests.resolve
 
 import org.gradle.integtests.fixtures.AbstractHttpDependencyResolutionTest
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.resolve.ResolveTestFixture
 import org.gradle.test.fixtures.file.TestFile
 import spock.lang.Unroll
@@ -36,6 +37,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can exclude a module from a repository using #notation"() {
         def mod = ivyHttpRepo.module('org', 'foo', '1.0').publish()
 
@@ -71,6 +73,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can include a module from a repository using #notation"() {
         def mod = ivyHttpRepo.module('org', 'foo', '1.0').publish()
 
@@ -106,6 +109,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "doesn't try to list module versions in repository when rule excludes group using #notation"() {
         def mod = ivyHttpRepo.module('org', 'foo', '1.0').publish()
         def ivyDirectoryList = ivyHttpRepo.directoryList('org', 'foo')
@@ -143,6 +147,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "doesn't try to list module versions in repository when rule includes group using #notation"() {
         def mod = ivyHttpRepo.module('org', 'foo', '1.0').publish()
         def ivyDirectoryList = ivyHttpRepo.directoryList('org', 'foo')
@@ -180,6 +185,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can exclude a specific module using #notation"() {
         def mod1 = ivyHttpRepo.module('org', 'foo', '1.0').publish()
         def mod2Ivy = ivyHttpRepo.module('org', 'bar', '1.0').publish()
@@ -224,6 +230,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can include a specific module using #notation"() {
         def mod1 = ivyHttpRepo.module('org', 'foo', '1.0').publish()
         def mod2Ivy = ivyHttpRepo.module('org', 'bar', '1.0').publish()
@@ -274,6 +281,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
      * of the configuration being resolved, in the rule.
      */
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can filter by configuration name (#notation)"() {
         def mod = ivyHttpRepo.module('org', 'foo', '1.0').publish()
 
@@ -311,6 +319,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "two configurations can use the same repositories with filtering and do not interfere with each other"() {
         def mod = mavenHttpRepo.module('org', 'foo', '1.0').publish()
 
@@ -353,6 +362,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
      * This can be useful when a repository only contains dependencies of a certain type (for example, native binaries or JS libraries)
      * so it wouldn't be necessary to look for POM files in them for example.
      */
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can filter by attributes"() {
         def mod = ivyHttpRepo.module('org', 'foo', '1.0').publish()
         buildFile << """
@@ -393,6 +403,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can exclude by module version using #notation"() {
         def modIvy = ivyHttpRepo.module('org', 'foo', '1.1').publish()
         def modMaven = mavenHttpRepo.module('org', 'foo', '1.0').publish()
@@ -431,6 +442,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can include by module version using #notation"() {
         def modIvy = ivyHttpRepo.module('org', 'foo', '1.1').publish()
         def modMaven = mavenHttpRepo.module('org', 'foo', '1.0').publish()
@@ -468,6 +480,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
         ]
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can declare that a repository doesn't contain snapshots"() {
         // doesn't really make sense to look for "SNAPSHOT" in an Ivy repository, but this is for the test
         def modIvy = ivyHttpRepo.module('org', 'foo', '1.0-SNAPSHOT').publish()
@@ -498,6 +511,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can declare that a repository only contains snapshots (unique = #unique)"() {
         def snapshotModule = mavenHttpRepo.module('org', 'foo', '1.0-SNAPSHOT')
         if (!unique) {
@@ -546,6 +560,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
         unique << [true, false]
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "releases only and dynamic selector"() {
         // doesn't really make sense to look for "SNAPSHOT" in an Ivy repository, but this is for the test
         def modIvy = ivyHttpRepo.module('org', 'foo', '1.0-SNAPSHOT').publish()
@@ -583,6 +598,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "presence of snapshots in a repo shouldn't prevent from getting latest release"() {
         def latestSnapshot = mavenHttpRepo.module('org', 'foo', '1.1-SNAPSHOT').publish()
         def latestRelease = mavenHttpRepo.module('org', 'foo', '1.0').publish()
@@ -611,6 +627,7 @@ class RepositoryContentFilteringIntegrationTest extends AbstractHttpDependencyRe
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "presence of releases in a repo shouldn't prevent from getting latest snapshot"() {
         def latestRelease = mavenHttpRepo.module('org', 'foo', '1.1').publish()
         def latestSnapshot = mavenHttpRepo.module('org', 'foo', '1.0-SNAPSHOT').publish()
