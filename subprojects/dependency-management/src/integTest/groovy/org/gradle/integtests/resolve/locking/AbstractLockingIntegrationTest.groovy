@@ -37,6 +37,7 @@ abstract class AbstractLockingIntegrationTest extends AbstractDependencyResoluti
     abstract LockMode lockMode()
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def 'succeeds when lock file does not conflict from declared versions (unique: #unique)'() {
         mavenRepo.module('org', 'foo', '1.0').publish()
         mavenRepo.module('org', 'foo', '1.1').publish()
