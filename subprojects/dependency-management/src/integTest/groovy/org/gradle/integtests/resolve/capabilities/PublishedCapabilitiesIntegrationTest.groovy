@@ -18,12 +18,14 @@ package org.gradle.integtests.resolve.capabilities
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 import spock.lang.Unroll
 
 @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
 class PublishedCapabilitiesIntegrationTest extends AbstractModuleDependencyResolveTest {
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can consume published capabilities"() {
         given:
         repository {
@@ -62,6 +64,7 @@ class PublishedCapabilitiesIntegrationTest extends AbstractModuleDependencyResol
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can detect conflict with capability in different versions and upgrade to latest version (#rule)"() {
         given:
         repository {
@@ -112,6 +115,7 @@ class PublishedCapabilitiesIntegrationTest extends AbstractModuleDependencyResol
 
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can detect conflict between local project and capability from external dependency"() {
         given:
         repository {
@@ -156,6 +160,7 @@ class PublishedCapabilitiesIntegrationTest extends AbstractModuleDependencyResol
      * This test illustrates that published modules can declare capabilities, which are then discovered
      * as we visit the graph. And if no published module declares a preference, then build should fail.
      */
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "fails with reasonable error message if no module express preference for conflict of modules that publish the same capability"() {
         given:
         repository {
@@ -198,6 +203,7 @@ class PublishedCapabilitiesIntegrationTest extends AbstractModuleDependencyResol
    Cannot select module with conflict on capability 'org.test:cap:1.0' also provided by [org:testA:1.0(runtime)]""")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "considers all candidates for conflict resolution"() {
         given:
         repository {
@@ -278,6 +284,7 @@ class PublishedCapabilitiesIntegrationTest extends AbstractModuleDependencyResol
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can select a particular module participating do a capability conflict independently of the version (select #expected)"() {
         given:
         repository {
