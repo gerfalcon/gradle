@@ -400,6 +400,7 @@ dependencies {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def 'changing rule implementation invalidates cache'() {
         repository {
             'org.test:projectA:1.0'()
