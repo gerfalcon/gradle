@@ -17,6 +17,7 @@
 package org.gradle.integtests.resolve.maven
 
 import org.gradle.integtests.fixtures.AbstractDependencyResolutionTest
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.resolve.ResolveTestFixture
 import org.gradle.util.Requires
 import org.gradle.util.TestPrecondition
@@ -33,6 +34,7 @@ class MavenRealProjectsDependencyResolveIntegrationTest extends AbstractDependen
     }
 
     @Requires(TestPrecondition.ONLINE)
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "resolves dependencies on real projects"() {
         // Real but ancient projects
         // Hibernate core brings in conflicts, exclusions and root poms
