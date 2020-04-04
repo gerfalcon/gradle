@@ -17,6 +17,7 @@ package org.gradle.groovy
 
 import org.gradle.api.JavaVersion
 import org.gradle.integtests.fixtures.AbstractDependencyResolutionTest
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.resolve.ResolveTestFixture
 import org.gradle.test.fixtures.archive.JarTestFixture
 import spock.lang.Issue
@@ -34,6 +35,7 @@ class GroovyJavaLibraryInteractionIntegrationTest extends AbstractDependencyReso
 
     @Issue("https://github.com/gradle/gradle/issues/7398")
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "selects #expected output when #consumerPlugin plugin adds a project dependency to #consumerConf and producer has java-library=#groovyWithJavaLib (compileClasspath)"() {
         if (deprecatedConfiguration) {
             executer.expectDeprecationWarning()
@@ -133,6 +135,7 @@ class GroovyJavaLibraryInteractionIntegrationTest extends AbstractDependencyReso
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "selects classes when #consumerPlugin plugin adds a project dependency to #consumerConf and producer has java-library=#groovyWithJavaLib (runtime classes variant)"() {
         if (deprecatedConfiguration) {
             executer.expectDeprecationWarning()
