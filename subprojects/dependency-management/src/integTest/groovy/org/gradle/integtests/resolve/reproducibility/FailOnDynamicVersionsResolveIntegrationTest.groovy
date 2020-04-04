@@ -18,6 +18,7 @@ package org.gradle.integtests.resolve.reproducibility
 
 import groovy.transform.CompileStatic
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 import spock.lang.Unroll
 
@@ -35,6 +36,7 @@ class FailOnDynamicVersionsResolveIntegrationTest extends AbstractModuleDependen
         """
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "fails to resolve a direct dependency using a dynamic version"() {
         buildFile << """
             dependencies {
@@ -61,6 +63,7 @@ class FailOnDynamicVersionsResolveIntegrationTest extends AbstractModuleDependen
         failure.assertHasCause("Could not resolve org:test:1.+: Resolution strategy disallows usage of dynamic versions")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "fails to resolve a transitive dependency which uses a dynamic version"() {
         buildFile << """
             dependencies {
@@ -94,6 +97,7 @@ class FailOnDynamicVersionsResolveIntegrationTest extends AbstractModuleDependen
         failure.assertHasCause("Could not resolve org:transitive:1.+: Resolution strategy disallows usage of dynamic versions")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "fails if a transitive dynamic selector participates in selection"() {
         buildFile << """
             dependencies {
@@ -133,6 +137,7 @@ class FailOnDynamicVersionsResolveIntegrationTest extends AbstractModuleDependen
         failure.assertHasCause("Could not resolve org:transitive:1.+: Resolution strategy disallows usage of dynamic versions")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "passes if a transitive dynamic selector doesn't participate in selection"() {
         buildFile << """
             dependencies {
@@ -201,6 +206,7 @@ class FailOnDynamicVersionsResolveIntegrationTest extends AbstractModuleDependen
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "doesn't fail if selection within range"() {
         buildFile << """
             dependencies {
@@ -246,6 +252,7 @@ class FailOnDynamicVersionsResolveIntegrationTest extends AbstractModuleDependen
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "fails if exact selector is below the range"() {
         buildFile << """
             dependencies {
@@ -276,6 +283,7 @@ class FailOnDynamicVersionsResolveIntegrationTest extends AbstractModuleDependen
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "fails with combination of selectors (#selector1 and #selector2)"() {
         buildFile << """
             dependencies {
