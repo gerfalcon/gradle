@@ -20,6 +20,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.attributes.Category
 import org.gradle.api.attributes.Usage
 import org.gradle.integtests.fixtures.AbstractHttpDependencyResolutionTest
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.resolve.ResolveTestFixture
 import spock.lang.Issue
 import spock.lang.Unroll
@@ -43,6 +44,7 @@ class JavaPlatformResolveIntegrationTest extends AbstractHttpDependencyResolutio
         """
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can get recommendations from a platform subproject"() {
         def module = mavenHttpRepo.module("org", "foo", "1.1").publish()
 
@@ -82,6 +84,7 @@ class JavaPlatformResolveIntegrationTest extends AbstractHttpDependencyResolutio
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can get different recommendations from a platform runtime subproject"() {
         def module1 = mavenHttpRepo.module("org", "foo", "1.1").publish()
         def module2 = mavenHttpRepo.module("org", "bar", "1.2").publish()
@@ -193,6 +196,7 @@ class JavaPlatformResolveIntegrationTest extends AbstractHttpDependencyResolutio
           - Required org.gradle.usage 'java-api' and found compatible value 'java-runtime'.''')
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can enforce a local platform dependency"() {
         def module1 = mavenHttpRepo.module("org", "foo", "1.1").publish()
         def module2 = mavenHttpRepo.module("org", "foo", "1.2").publish()
@@ -238,6 +242,7 @@ class JavaPlatformResolveIntegrationTest extends AbstractHttpDependencyResolutio
     // When publishing a platform, the Gradle metadata will _not_ contain enforced platforms
     // as those are synthetic platforms generated at runtime. This test is here to make sure
     // this is the case
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can enforce a published platform"() {
         def platform = mavenHttpRepo.module("org", "platform", "1.0")
                 .withModuleMetadata()
@@ -293,6 +298,7 @@ class JavaPlatformResolveIntegrationTest extends AbstractHttpDependencyResolutio
     }
 
     @Issue("gradle/gradle#8312")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can resolve a platform with a constraint to determine the platform version"() {
         def platform = mavenHttpRepo.module("org", "platform", "1.0")
                 .hasType("pom")
@@ -337,6 +343,7 @@ class JavaPlatformResolveIntegrationTest extends AbstractHttpDependencyResolutio
     }
 
     @Issue("gradle/gradle#8312")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can resolve a platform with a constraint to determine the platform version via a transitive constraint"() {
         def platform = mavenHttpRepo.module("org", "platform", "1.0")
             .hasType("pom")
@@ -399,6 +406,7 @@ class JavaPlatformResolveIntegrationTest extends AbstractHttpDependencyResolutio
     }
 
     @Issue("gradle/gradle#8548")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "enforced platforms should not have any dependency"() {
         def top = mavenHttpRepo.module("org", "top", "1.0")
                 .dependsOn("org", "leaf", "1.0")
@@ -431,6 +439,7 @@ class JavaPlatformResolveIntegrationTest extends AbstractHttpDependencyResolutio
     }
 
     @Issue("gradle/gradle#11091")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "resolves to runtime platform variant of a platform with gradle metadata if no attributes are requested"() {
         def platform = mavenHttpRepo.module("org", "platform", "1.0").withModuleMetadata().withoutDefaultVariants()
             .withVariant('api') {
@@ -473,6 +482,7 @@ class JavaPlatformResolveIntegrationTest extends AbstractHttpDependencyResolutio
 
     @Issue("gradle/gradle#11091")
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can enforce a platform that is already on the dependency graph on the #classpath classpath"() {
         def platform = mavenHttpRepo.module("org", "platform", "1.0").withModuleMetadata().withoutDefaultVariants()
             .withVariant('apiElements') {
@@ -567,6 +577,7 @@ class JavaPlatformResolveIntegrationTest extends AbstractHttpDependencyResolutio
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def 'constraint from platform does not erase excludes (platform: #platform)'() {
         given:
         platformModule("""
