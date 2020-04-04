@@ -114,6 +114,7 @@ project(':tool') {
         run("tool:dependencies")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "resolves module version conflicts to the latest version by default"() {
         mavenRepo.module("org", "foo", '1.3.3').publish()
         mavenRepo.module("org", "foo", '1.4.4').publish()
@@ -172,6 +173,7 @@ project(':tool') {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "resolves transitive module version conflicts to the latest version by default"() {
         def foo133 = mavenRepo.module("org", "foo", '1.3.3').publish()
         def foo144 = mavenRepo.module("org", "foo", '1.4.4').publish()
@@ -221,6 +223,7 @@ task resolve {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "re-selects target version for previously resolved then evicted selector"() {
         def depOld = mavenRepo.module("org", "dep", "2.0").publish()
         def depNew = mavenRepo.module("org", "dep", "2.5").publish()
@@ -274,6 +277,7 @@ dependencies {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "does not attempt to resolve an evicted dependency"() {
         mavenRepo.module("org", "external", "1.2").publish()
         mavenRepo.module("org", "dep", "2.2").dependsOn("org", "external", "1.0").publish()
@@ -711,6 +715,7 @@ parentFirst
     }
 
     @Issue("GRADLE-2752")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "selects root module when earlier version of module requested"() {
         mavenRepo.module("org", "test", "1.2").publish()
         mavenRepo.module("org", "other", "1.7").dependsOn("org", "test", "1.2").publish()
@@ -749,6 +754,7 @@ dependencies {
     }
 
     @Issue("GRADLE-2920")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "selects later version of root module when requested"() {
         mavenRepo.module("org", "test", "2.1").publish()
         mavenRepo.module("org", "other", "1.7").dependsOn("org", "test", "2.1").publish()
