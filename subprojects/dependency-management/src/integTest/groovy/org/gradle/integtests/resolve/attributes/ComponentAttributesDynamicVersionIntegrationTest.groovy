@@ -18,6 +18,7 @@ package org.gradle.integtests.resolve.attributes
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 import spock.lang.Unroll
 
@@ -77,6 +78,7 @@ class ComponentAttributesDynamicVersionIntegrationTest extends AbstractModuleDep
     }
 
     @Unroll("selects the first version which matches the component-level attributes (requested=#requested)")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "selects the first version which matches the component-level attributes"() {
         given:
         repository {
@@ -137,6 +139,7 @@ class ComponentAttributesDynamicVersionIntegrationTest extends AbstractModuleDep
     }
 
     @Unroll("selects the first version which matches the component-level attributes (requested=#requested) using dependency attributes")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "selects the first version which matches the component-level attributes using dependency attributes"() {
         given:
         repository {
@@ -205,6 +208,7 @@ class ComponentAttributesDynamicVersionIntegrationTest extends AbstractModuleDep
         requested << ["[1.0,)", latestNotation(), "1.+", "1+", "+"]
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reasonable error message whenever a dynamic version doesn't match any version because of single attribute mismatch"() {
         given:
         repository {
@@ -255,6 +259,7 @@ Versions rejected by attribute matching:
 """)
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reasonable error message whenever a dynamic version doesn't match any version because of multiple attributes"() {
         given:
         repository {
