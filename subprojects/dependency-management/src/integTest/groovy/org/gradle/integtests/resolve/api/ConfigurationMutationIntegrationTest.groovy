@@ -45,6 +45,7 @@ repositories {
 """
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can use withDependencies to mutate dependencies of parent configuration"() {
         when:
         buildFile << """
@@ -68,6 +69,7 @@ configurations.compile.withDependencies { deps ->
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can use withDependencies to mutate declared dependencies"() {
         when:
         buildFile << """
@@ -91,6 +93,7 @@ configurations.conf.withDependencies { deps ->
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "withDependencies actions are executed in order added"() {
         when:
         buildFile << """
@@ -115,6 +118,7 @@ configurations.compile.withDependencies { DependencySet deps ->
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "withDependencies action can mutate dependencies provided by defaultDependencies"() {
         when:
         buildFile << """
@@ -134,6 +138,7 @@ configurations.compile.defaultDependencies { DependencySet deps ->
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can use withDependencies to mutate dependency versions"() {
         when:
         buildFile << """
@@ -164,6 +169,7 @@ configurations.compile.withDependencies { deps ->
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "provides useful error message when withDependencies action fails to execute"() {
         when:
         buildFile << """
