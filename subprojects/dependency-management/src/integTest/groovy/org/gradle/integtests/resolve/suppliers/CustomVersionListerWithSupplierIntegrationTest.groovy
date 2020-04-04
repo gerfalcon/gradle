@@ -19,6 +19,7 @@ package org.gradle.integtests.resolve.suppliers
 import groovy.json.JsonBuilder
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 
 // we only need to check without Gradle metadata, it doesn't matter
@@ -47,6 +48,7 @@ class CustomVersionListerWithSupplierIntegrationTest extends AbstractModuleDepen
         ]
     )
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can use the same remote cached external resource to get both version list and module metadata"() {
         def versions = ['org:testA': TEST_A_METADATA,
                         'org:testB': TEST_B_METADATA]
@@ -100,6 +102,7 @@ class CustomVersionListerWithSupplierIntegrationTest extends AbstractModuleDepen
         outputDoesNotContain("Supplying metadata for module org:testB:1")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can use the same remote cached external resource to get both version list and module metadata for all modules at once"() {
         withGlobalExternalResourceListerAndSupplier(ALL_METADATA, true)
         given:
