@@ -18,6 +18,7 @@ package org.gradle.integtests.resolve.attributes
 
 import org.gradle.api.JavaVersion
 import org.gradle.integtests.fixtures.AbstractDependencyResolutionTest
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.resolve.ResolveTestFixture
 
 class CrossProjectMultipleVariantSelectionIntegrationTest extends AbstractDependencyResolutionTest {
@@ -37,6 +38,7 @@ class CrossProjectMultipleVariantSelectionIntegrationTest extends AbstractDepend
         resolve.prepare()
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can select both main variant and test fixtures with project dependencies"() {
         given:
         settingsFile << "include 'lib'"
@@ -93,6 +95,7 @@ class CrossProjectMultipleVariantSelectionIntegrationTest extends AbstractDepend
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "prefers the variant which strictly matches the requested capabilities"() {
         given:
         settingsFile << "include 'lib'"
