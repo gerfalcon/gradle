@@ -17,6 +17,7 @@
 package org.gradle.integtests.resolve.maven
 
 import org.gradle.integtests.fixtures.AbstractHttpDependencyResolutionTest
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.resolve.ResolveTestFixture
 import org.gradle.test.fixtures.server.http.MavenHttpModule
 
@@ -39,6 +40,7 @@ class MavenGradleMetadataRedirectionIntegrationTest extends AbstractHttpDependen
         prepareResolution()
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "doesn't try to fetch Gradle metadata if published and marker is not present"() {
         given:
         createPomFile(false)
@@ -62,6 +64,7 @@ class MavenGradleMetadataRedirectionIntegrationTest extends AbstractHttpDependen
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "prefers Gradle metadata if published and marker is present"() {
         given:
         createPomFile(true)
@@ -92,6 +95,7 @@ class MavenGradleMetadataRedirectionIntegrationTest extends AbstractHttpDependen
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reasonable behavior when POM file says Gradle metadata is present but is not"() {
         given:
         createPomFile(true)
@@ -118,6 +122,7 @@ class MavenGradleMetadataRedirectionIntegrationTest extends AbstractHttpDependen
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "doesn't try to fetch Gradle metadata if published has marker present and ignoreGradleMetadataRedirection is set"() {
         setup:
         buildFile.text = """
