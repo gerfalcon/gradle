@@ -17,6 +17,7 @@ package org.gradle.integtests.resolve.rules
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 import spock.lang.Unroll
 
@@ -58,6 +59,7 @@ class VariantAttributesRulesIntegrationTest extends AbstractModuleDependencyReso
         """
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can add attributes"() {
         given:
         withDefaultVariantToTest()
@@ -118,6 +120,7 @@ class VariantAttributesRulesIntegrationTest extends AbstractModuleDependencyReso
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can override attributes"() {
         given:
         withDefaultVariantToTest()
@@ -219,6 +222,7 @@ class VariantAttributesRulesIntegrationTest extends AbstractModuleDependencyReso
     // This test documents the current behavior. It's not necessarily
     // what we want, but there doesn't seem to be a good use case for mutating
     // artifact attributes
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can specify an artifact attribute on a variant to mitigate missing withArtifacts rules"() {
         given:
         withDefaultVariantToTest()
@@ -300,6 +304,7 @@ class VariantAttributesRulesIntegrationTest extends AbstractModuleDependencyReso
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "rule is applied only once"() {
         given:
         withDefaultVariantToTest()
@@ -357,6 +362,7 @@ class VariantAttributesRulesIntegrationTest extends AbstractModuleDependencyReso
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can disambiguate variants to select #selectedVariant"() {
         given:
         withDefaultVariantToTest()
@@ -442,6 +448,7 @@ class VariantAttributesRulesIntegrationTest extends AbstractModuleDependencyReso
 
     // published attributes are only available in Gradle metadata
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "published variant metadata can be overwritten"() {
         given:
         repository {
