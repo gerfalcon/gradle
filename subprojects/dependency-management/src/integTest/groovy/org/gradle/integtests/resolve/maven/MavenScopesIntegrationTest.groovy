@@ -17,6 +17,7 @@
 package org.gradle.integtests.resolve.maven
 
 import org.gradle.integtests.fixtures.AbstractDependencyResolutionTest
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.resolve.ResolveTestFixture
 
 class MavenScopesIntegrationTest extends AbstractDependencyResolutionTest {
@@ -38,6 +39,7 @@ class MavenScopesIntegrationTest extends AbstractDependencyResolutionTest {
 """
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "prefers the runtime variant of a Maven module"() {
         def notRequired = mavenRepo.module('test', 'dont-include-me', '1.0')
         def m1 = mavenRepo.module('test', 'test1', '1.0').publish()
@@ -87,6 +89,7 @@ dependencies {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can reference compile scope to include compile scoped dependencies of module"() {
         def notRequired = mavenRepo.module('test', 'dont-include-me', '1.0')
         def m1 = mavenRepo.module('test', 'test1', '1.0').publish()
@@ -123,6 +126,7 @@ dependencies {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can reference runtime scope to include runtime dependencies of compile and runtime scoped dependencies of module"() {
         def notRequired = mavenRepo.module('test', 'dont-include-me', '1.0')
         def m1 = mavenRepo.module('test', 'test1', '1.0').publish()
@@ -172,6 +176,7 @@ dependencies {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can reference provided scope to include runtime dependencies of provided scoped dependencies of module"() {
         def notRequired = mavenRepo.module('test', 'dont-include-me', '1.0')
         def m1 = mavenRepo.module('test', 'test1', '1.0').publish()
@@ -219,6 +224,7 @@ dependencies {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can reference test scope to include test dependencies of compile, runtime and test scoped dependencies of module"() {
         def notRequired = mavenRepo.module('test', 'dont-include-me', '1.0')
         def m1 = mavenRepo.module('test', 'test1', '1.0').publish()
@@ -281,6 +287,7 @@ dependencies {
     }
 
     // This test is documenting behaviour for backwards compatibility purposes
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can reference 'default' configuration to include runtime dependencies of module"() {
         def notRequired = mavenRepo.module('test', 'dont-include-me', '1.0')
         def m1 = mavenRepo.module('test', 'test1', '1.0').publish()
@@ -310,6 +317,7 @@ dependencies {
     }
 
     // This test is documenting behaviour for backwards compatibility purposes
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can reference 'optional' configuration to include optional dependencies of module"() {
         def notRequired = mavenRepo.module('test', 'dont-include-me', '1.0')
         def m1 = mavenRepo.module('test', 'test1', '1.0').publish()
@@ -340,6 +348,7 @@ dependencies {
     }
 
     // This test is documenting behaviour for backwards compatibility purposes
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can reference 'master' configuration to include artifact only"() {
         def notRequired = mavenRepo.module('test', 'dont-include-me', '1.0')
         mavenRepo.module('test', 'target', '1.0')
@@ -365,6 +374,7 @@ dependencies {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "fails when referencing a scope that does not exist"() {
         mavenRepo.module('test', 'target', '1.0')
             .publish()
