@@ -18,11 +18,13 @@ package org.gradle.integtests.resolve.features
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 
 @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
 class FeaturesResolveIntegrationTest extends AbstractModuleDependencyResolveTest {
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can select a variant providing a different capability"() {
         given:
         repository {
@@ -81,6 +83,7 @@ class FeaturesResolveIntegrationTest extends AbstractModuleDependencyResolveTest
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reasonable error message when no variant provides required capability"() {
         given:
         repository {
@@ -127,6 +130,7 @@ class FeaturesResolveIntegrationTest extends AbstractModuleDependencyResolveTest
    - Variant feature2 provides org:feature-2:1.0""")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can select a variant providing the required set of capabilities"() {
         given:
         repository {
