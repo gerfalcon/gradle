@@ -17,6 +17,7 @@ package org.gradle.integtests.resolve.rules
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 import spock.lang.Unroll
 
@@ -114,6 +115,7 @@ class VariantFilesMetadataRulesIntegrationTest extends AbstractModuleDependencyR
         """
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "missing variant can be added"() {
         given:
         repository {
@@ -160,6 +162,7 @@ class VariantFilesMetadataRulesIntegrationTest extends AbstractModuleDependencyR
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "missing variant can be added without base"() {
         given:
         repository {
@@ -202,6 +205,7 @@ class VariantFilesMetadataRulesIntegrationTest extends AbstractModuleDependencyR
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "using a non-existing base throws and error"() {
         given:
         repository {
@@ -237,6 +241,7 @@ class VariantFilesMetadataRulesIntegrationTest extends AbstractModuleDependencyR
     }
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.REPOSITORY_TYPE, value = "maven")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can add variants containing metadata as artifacts using lenient rules"() {
         given:
         repository {
@@ -291,6 +296,7 @@ class VariantFilesMetadataRulesIntegrationTest extends AbstractModuleDependencyR
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "file can be added to existing variant"() {
         def dependencyDeclaration = (useMaven() || gradleMetadataPublished)
             ? "'org.test:moduleA:1.0'" // variant matching
@@ -339,6 +345,7 @@ class VariantFilesMetadataRulesIntegrationTest extends AbstractModuleDependencyR
     }
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "capabilities of base are preserved"() {
         given:
         repository {
@@ -396,6 +403,7 @@ class VariantFilesMetadataRulesIntegrationTest extends AbstractModuleDependencyR
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "cannot add file with the same name multiple times"() {
         def dependencyDeclaration = (useMaven() || gradleMetadataPublished)
             ? "'org.test:moduleA:1.0'" // variant matching
@@ -432,6 +440,7 @@ class VariantFilesMetadataRulesIntegrationTest extends AbstractModuleDependencyR
     @RequiredFeature(feature = GradleMetadataResolveRunner.REPOSITORY_TYPE, value = "ivy")
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "false")
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can add variants for ivy - #usageAttribute"() {
         // through this, we opt-into variant aware dependency management for a pure ivy module
         given:
@@ -510,6 +519,7 @@ class VariantFilesMetadataRulesIntegrationTest extends AbstractModuleDependencyR
     @RequiredFeature(feature = GradleMetadataResolveRunner.REPOSITORY_TYPE, value = "maven")
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "false")
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "do #not opt-out of maven artifact discovery when #not adding files to a variant (#extension artifact)"() {
         given:
         repository {
