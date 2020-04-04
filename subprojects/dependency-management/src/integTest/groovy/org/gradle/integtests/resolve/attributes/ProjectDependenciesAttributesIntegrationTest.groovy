@@ -17,6 +17,7 @@
 package org.gradle.integtests.resolve.attributes
 
 import org.gradle.integtests.fixtures.AbstractIntegrationSpec
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.resolve.ResolveTestFixture
 import spock.lang.Unroll
 
@@ -37,6 +38,7 @@ class ProjectDependenciesAttributesIntegrationTest extends AbstractIntegrationSp
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "uses dependency attributes to select the right configuration on the target project (color=#color)"() {
         given:
         settingsFile << "include 'dep'"
@@ -68,6 +70,7 @@ class ProjectDependenciesAttributesIntegrationTest extends AbstractIntegrationSp
         color << ['blue', 'red']
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "Fails with reasonable error message when no target variant can be found"() {
         given:
         settingsFile << "include 'dep'"
@@ -95,6 +98,7 @@ class ProjectDependenciesAttributesIntegrationTest extends AbstractIntegrationSp
           - Required color 'green' and found incompatible value 'red'.""")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "dependency attributes override configuration attributes"() {
         given:
         settingsFile << "include 'dep'"
