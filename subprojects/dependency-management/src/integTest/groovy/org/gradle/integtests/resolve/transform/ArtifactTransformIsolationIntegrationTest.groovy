@@ -208,6 +208,7 @@ class Resolve extends Copy {
         output.count("Transforming test2-2.3.jar to test2-2.3.jar.txt") == 3
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field")
     def "serialized mutable class is isolated during legacy artifact transformation"() {
         mavenRepo.module("test", "test", "1.3").publish()
          mavenRepo.module("test", "test2", "2.3").publish()
