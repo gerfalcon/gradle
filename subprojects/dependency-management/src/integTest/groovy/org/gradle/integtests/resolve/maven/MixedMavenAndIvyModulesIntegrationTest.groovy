@@ -17,6 +17,7 @@
 package org.gradle.integtests.resolve.maven
 
 import org.gradle.integtests.fixtures.AbstractDependencyResolutionTest
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.resolve.ResolveTestFixture
 
 class MixedMavenAndIvyModulesIntegrationTest extends AbstractDependencyResolutionTest {
@@ -39,6 +40,7 @@ class MixedMavenAndIvyModulesIntegrationTest extends AbstractDependencyResolutio
 """
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "when no target configuration is specified then a dependency on maven module includes the default configuration of required ivy module"() {
         def inDefault = ivyRepo.module("org.test", "in-default", "1.0").publish()
         def m1 = ivyRepo.module("org.test", "m1", "1.0")
@@ -86,6 +88,7 @@ dependencies {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "a dependency on compile scope of maven module includes default of required ivy module when they are present"() {
         def inDefault = ivyRepo.module("org.test", "in-default", "1.0").publish()
         def m1 = ivyRepo.module("org.test", "m1", "1.0")
@@ -131,6 +134,7 @@ dependencies {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "ignores missing master configuration of ivy module when consumed by maven module"() {
         def inDefault = ivyRepo.module("org.test", "in-default", "1.0").publish()
         def m1 = ivyRepo.module("org.test", "m1", "1.0").publish()
@@ -170,6 +174,7 @@ dependencies {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "ivy module can consume scopes of maven module"() {
         def notRequired = mavenRepo.module("org.test", "ignore-me", "1.0")
         def m1 = mavenRepo.module('org.test', 'm1', '1.0').publish()
@@ -206,6 +211,7 @@ dependencies {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "selects default configuration of ivy module when dependency from consuming maven module is substituted"() {
         def m1 = ivyRepo.module("org.test", "m1", "1.0")
             .configuration("compile")
@@ -256,6 +262,7 @@ configurations.conf.resolutionStrategy.force('org.test:ivy:1.2')
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "selects default configuration of ivy module when dynamic dependency is used from consuming maven module"() {
         def inDefault = ivyRepo.module("org.test", "in-default", "1.0").publish()
         def m1 = ivyRepo.module("org.test", "m1", "1.0")
@@ -301,6 +308,7 @@ dependencies {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can interleave ivy and maven modules"() {
         def m1 = ivyRepo.module('org.test', 'm1', '1.0').publish()
         def m2 = mavenRepo.module('org.test', 'm2', '1.0')
