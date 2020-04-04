@@ -17,6 +17,7 @@
 package org.gradle.integtests.resolve.ivy
 
 import org.gradle.integtests.fixtures.AbstractHttpDependencyResolutionTest
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.resolve.ResolveTestFixture
 import org.gradle.test.fixtures.server.http.IvyHttpModule
 
@@ -40,6 +41,7 @@ class IvyGradleMetadataRedirectionIntegrationTest extends AbstractHttpDependency
 
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "doesn't try to fetch Gradle metadata if published and marker is not present"() {
         given:
         createIvyFile(false)
@@ -63,6 +65,7 @@ class IvyGradleMetadataRedirectionIntegrationTest extends AbstractHttpDependency
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "prefers Gradle metadata if published and marker is present"() {
         given:
         createIvyFile(true)
@@ -93,6 +96,7 @@ class IvyGradleMetadataRedirectionIntegrationTest extends AbstractHttpDependency
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reasonable behavior when Ivy file says Gradle metadata is present but is not"() {
         given:
         createIvyFile(true)
@@ -119,6 +123,7 @@ class IvyGradleMetadataRedirectionIntegrationTest extends AbstractHttpDependency
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "doesn't try to fetch Gradle metadata if published has marker present and ignoreGradleMetadataRedirection is set"() {
         setup:
         buildFile.text = """
