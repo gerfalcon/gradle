@@ -46,6 +46,7 @@ class MavenScopesAndProjectDependencySubstitutionIntegrationTest extends Abstrac
         """
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "when no target configuration is specified then a dependency on maven module includes the default configuration of target project when they are present"() {
         mavenRepo.module("org.test", "m1", "1.0").publish()
         mavenRepo.module("org.test", "m2", "1.0").publish()
@@ -139,6 +140,7 @@ project(':child2') {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "a dependency on compile scope of maven module includes the default of target project when they are present"() {
         mavenRepo.module("org.test", "m1", "1.0").publish()
         mavenRepo.module("org.test", "m2", "1.0").publish()
