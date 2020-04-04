@@ -18,6 +18,7 @@ package org.gradle.integtests.resolve.attributes
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 import spock.lang.Issue
 import spock.lang.Unroll
@@ -31,6 +32,7 @@ class DependenciesAttributesIntegrationTest extends AbstractModuleDependencyReso
         """
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can declare attributes on dependencies"() {
         given:
         repository {
@@ -66,6 +68,7 @@ class DependenciesAttributesIntegrationTest extends AbstractModuleDependencyReso
         outputDoesNotContain("Cannot set attributes for dependency \"org:test:1.0\": it was probably created by a plugin using internal APIs")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can declare attributes on constraints"() {
         given:
         repository {
@@ -108,6 +111,7 @@ class DependenciesAttributesIntegrationTest extends AbstractModuleDependencyReso
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
     @Unroll("Selects variant #expectedVariant using custom attribute value #attributeValue")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "attribute value is used during selection"() {
         given:
         repository {
@@ -156,6 +160,7 @@ class DependenciesAttributesIntegrationTest extends AbstractModuleDependencyReso
     }
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "Fails resolution because dependency attributes and constraint attributes conflict"() {
         given:
         repository {
@@ -201,6 +206,7 @@ class DependenciesAttributesIntegrationTest extends AbstractModuleDependencyReso
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
     @Unroll("Selects variant #expectedVariant using typed attribute value #attributeValue")
     @Issue("gradle/gradle#5232")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can declare typed attributes without failing serialization"() {
         given:
         repository {
@@ -258,6 +264,7 @@ class DependenciesAttributesIntegrationTest extends AbstractModuleDependencyReso
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
     @Issue("gradle/gradle#5232")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "Serializes and reads back failed resolution when failure comes from an unmatched typed attribute"() {
         given:
         repository {
@@ -307,6 +314,7 @@ class DependenciesAttributesIntegrationTest extends AbstractModuleDependencyReso
     }
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "Merges consumer configuration attributes with dependency attributes"() {
         given:
         repository {
@@ -352,6 +360,7 @@ class DependenciesAttributesIntegrationTest extends AbstractModuleDependencyReso
     }
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "Fails resolution because consumer configuration attributes and dependency attributes conflict"() {
         given:
         repository {
@@ -407,6 +416,7 @@ class DependenciesAttributesIntegrationTest extends AbstractModuleDependencyReso
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
     @Unroll("Selects variant #expectedVariant using custom attribute value #dependencyValue overriding configuration attribute #configurationValue")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "dependency attribute value overrides configuration attribute"() {
         given:
         repository {
@@ -458,6 +468,7 @@ class DependenciesAttributesIntegrationTest extends AbstractModuleDependencyReso
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
     @Unroll("Selects variant #expectedVariant using custom attribute value #dependencyValue overriding configuration attribute #configurationValue using dependency constraint")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "dependency attribute value overrides configuration attribute using dependency constraint"() {
         given:
         repository {
@@ -515,6 +526,7 @@ class DependenciesAttributesIntegrationTest extends AbstractModuleDependencyReso
     }
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "Fails resolution because consumer configuration attributes and constraint attributes conflict"() {
         given:
         repository {
@@ -573,6 +585,7 @@ class DependenciesAttributesIntegrationTest extends AbstractModuleDependencyReso
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
     @Unroll("Selects variant #expectedVariant using dependency attribute value #attributeValue set in a metadata rule")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "attribute value set by metadata rule is used during selection"() {
         given:
         repository {
@@ -703,6 +716,7 @@ class DependenciesAttributesIntegrationTest extends AbstractModuleDependencyReso
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
     @Unroll("Selects variant #expectedVariant using transitive dependency attribute value #attributeValue set in a metadata rule")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "attribute value set by metadata rule on transitive dependency is used during selection"() {
         given:
         repository {
@@ -850,6 +864,7 @@ class DependenciesAttributesIntegrationTest extends AbstractModuleDependencyReso
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
     @Unroll("Selects direct=#expectedDirectVariant, transitive=[#expectedTransitiveVariantA, #expectedTransitiveVariantB], leaf=#expectedLeafVariant making sure dependency attribute value doesn't leak to transitives")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "Attribute value on dependency only affects selection of this dependency (using component metadata rules)"() {
         given:
         repository {
@@ -972,6 +987,7 @@ class DependenciesAttributesIntegrationTest extends AbstractModuleDependencyReso
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
     @Unroll("Selects direct=#expectedDirectVariant, transitive=[#expectedTransitiveVariantA, #expectedTransitiveVariantB], leaf=#expectedLeafVariant making sure dependency attribute value doesn't leak to transitives (using published metadata)")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "Attribute value on dependency only affects selection of this dependency (using published metadata)"() {
         given:
         repository {
