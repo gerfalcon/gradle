@@ -123,6 +123,7 @@ project(":b") {
         executedAndNotSkipped ":a:jar"
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "project dependency that specifies a target configuration includes artifacts and transitive dependencies of selected configuration"() {
         given:
         mavenRepo.module("org.other", "externalA", "1.2").publish()
