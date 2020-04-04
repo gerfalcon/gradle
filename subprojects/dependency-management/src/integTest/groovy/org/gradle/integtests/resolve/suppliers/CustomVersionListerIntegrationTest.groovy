@@ -25,6 +25,8 @@ import spock.lang.Unroll
 // we only need to check without Gradle metadata, it doesn't matter
 @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "false")
 class CustomVersionListerIntegrationTest extends AbstractModuleDependencyResolveTest {
+
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can list versions without hitting repository"() {
         withLister([testA: [1, 2, 3]])
         given:
@@ -50,6 +52,7 @@ class CustomVersionListerIntegrationTest extends AbstractModuleDependencyResolve
         succeeds 'checkDeps'
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "falls back to repository listing when no version is listed"() {
         withLister([:])
         given:
@@ -78,6 +81,7 @@ class CustomVersionListerIntegrationTest extends AbstractModuleDependencyResolve
         succeeds 'checkDeps'
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "doesn't fallback to repository listing when empty list version is returned"() {
         withLister([testA: []])
         given:
@@ -94,6 +98,7 @@ class CustomVersionListerIntegrationTest extends AbstractModuleDependencyResolve
         failure.assertHasCause("Could not find any matches for org:testA:+ as no versions of org:testA are available.")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can version listing can use module identifier to return the version list"() {
         withLister([testA: [1, 2, 3], testB: [1, 2]])
         given:
@@ -187,6 +192,7 @@ class CustomVersionListerIntegrationTest extends AbstractModuleDependencyResolve
         'file on repository' | [testA: [1, 2, 3]]
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can recover from broken lister"() {
         withBrokenLister()
         given:
@@ -222,6 +228,7 @@ class CustomVersionListerIntegrationTest extends AbstractModuleDependencyResolve
         succeeds 'checkDeps'
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can recover from --offline mode"() {
         withLister(['testA': [1, 2, 3]])
 
@@ -254,6 +261,7 @@ class CustomVersionListerIntegrationTest extends AbstractModuleDependencyResolve
         succeeds 'checkDeps'
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can use result from lister in --offline mode"() {
         withLister(['testA': [1, 2, 3]])
 
