@@ -33,6 +33,7 @@ class MavenProfileResolveIntegrationTest extends AbstractHttpDependencyResolutio
         resolve.addDefaultVariantDerivationStrategy()
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "uses properties from active profile to resolve dependency"() {
         given:
         def requestedModule = mavenHttpRepo.module("groupA", "artifactA", "1.2").publish()
@@ -165,6 +166,7 @@ dependencies { compile 'groupA:artifactA:1.2' }
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "uses dependency management defaults from active profile to resolve dependency"() {
         given:
         def requestedModule = mavenHttpRepo.module("groupA", "artifactA", "1.2").publish()
@@ -227,6 +229,7 @@ dependencies { compile 'groupA:artifactA:1.2' }
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "resolves dependency from active profile"() {
         given:
         def requestedModule = mavenHttpRepo.module("groupA", "artifactA", "1.2").publish()
@@ -293,6 +296,7 @@ dependencies { compile 'groupA:artifactA:1.2' }
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "uses properties from profile activated by the absence of a property"() {
         given:
         String customPropertyName = new UUIDGenerator().generateId()
@@ -355,6 +359,7 @@ dependencies { compile 'groupA:artifactA:1.2' }
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "uses properties from profile activated by absence of system property over active by default to resolve dependency"() {
         given:
         def requestedModule = mavenHttpRepo.module("groupA", "artifactA", "1.2").publish()
@@ -427,6 +432,7 @@ dependencies { compile 'groupA:artifactA:1.2' }
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "uses dependency management defaults from profile activated by absence of system property to resolve dependency"() {
         given:
         def requestedModule = mavenHttpRepo.module("groupA", "artifactA", "1.2").publish()
@@ -491,6 +497,7 @@ dependencies { compile 'groupA:artifactA:1.2' }
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "resolves dependency from profile activated by absence of system property"() {
         given:
         def requestedModule = mavenHttpRepo.module("groupA", "artifactA", "1.2").publish()
