@@ -18,6 +18,7 @@ package org.gradle.integtests.resolve.override
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 import spock.lang.Unroll
 
@@ -28,6 +29,7 @@ import spock.lang.Unroll
 @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
 class ComponentOverrideMetadataResolveIntegrationTest extends AbstractModuleDependencyResolveTest {
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can combine artifact notation and constraints"() {
         resolve.expectDefaultConfiguration(useMaven() ? 'runtime' : 'default')
 
@@ -74,6 +76,7 @@ class ComponentOverrideMetadataResolveIntegrationTest extends AbstractModuleDepe
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "The first artifact is used as replacement for metadata if multiple artifacts are declared using #declaration"() {
         resolve.expectDefaultConfiguration(useMaven() ? 'runtime' : 'default')
 
@@ -131,6 +134,7 @@ class ComponentOverrideMetadataResolveIntegrationTest extends AbstractModuleDepe
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "client module for version 1.0 is selected over other dependency with version #otherVersion"() {
         resolve.expectDefaultConfiguration('default')
 
@@ -178,6 +182,7 @@ class ComponentOverrideMetadataResolveIntegrationTest extends AbstractModuleDepe
         otherVersion << ['0.9', '1.0']
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "client module for a not selected version or range is ignored"() {
         given:
         repository {
@@ -225,6 +230,7 @@ class ComponentOverrideMetadataResolveIntegrationTest extends AbstractModuleDepe
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "clashing client modules fail the build"() {
         given:
         buildFile << """
