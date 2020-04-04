@@ -21,6 +21,7 @@ import org.gradle.api.attributes.LibraryElements
 import org.gradle.api.attributes.Usage
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 import spock.lang.Ignore
 import spock.lang.Unroll
@@ -46,6 +47,7 @@ class JavaBundlingResolveIntegrationTest extends AbstractModuleDependencyResolve
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "defaults to the external dependencies variant (#bundling)"() {
         given:
         repository {
@@ -110,6 +112,7 @@ class JavaBundlingResolveIntegrationTest extends AbstractModuleDependencyResolve
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "selects the appropriate variant (producer=#bundling, requested=#requested, selected=#selected)"() {
         given:
         repository {
