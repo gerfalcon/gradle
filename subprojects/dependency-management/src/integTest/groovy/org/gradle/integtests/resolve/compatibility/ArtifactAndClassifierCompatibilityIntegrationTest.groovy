@@ -15,11 +15,13 @@
  */
 package org.gradle.integtests.resolve.compatibility
 
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 import spock.lang.Issue
 
 class ArtifactAndClassifierCompatibilityIntegrationTest extends AbstractModuleDependencyResolveTest {
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "resolves a dependency with classifier targeting module without GMM"() {
         given:
         repository {
@@ -65,6 +67,7 @@ class ArtifactAndClassifierCompatibilityIntegrationTest extends AbstractModuleDe
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "resolves a dependency with classifier targeting module with GMM"() {
         given:
         repository {
@@ -117,6 +120,7 @@ class ArtifactAndClassifierCompatibilityIntegrationTest extends AbstractModuleDe
     /**
      * Test to demonstrate a real life use case.
      */
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "existing oss library use case"() {
         given:
         repository {
@@ -170,6 +174,7 @@ class ArtifactAndClassifierCompatibilityIntegrationTest extends AbstractModuleDe
     }
 
     @Issue("gradle/gradle#11825")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "dependency on both classifier and regular jar of a given module"() {
         given:
         repository {
@@ -219,6 +224,7 @@ class ArtifactAndClassifierCompatibilityIntegrationTest extends AbstractModuleDe
     }
 
     @Issue("gradle/gradle#11825")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "dependency on different classifiers of a given module"() {
         given:
         repository {
