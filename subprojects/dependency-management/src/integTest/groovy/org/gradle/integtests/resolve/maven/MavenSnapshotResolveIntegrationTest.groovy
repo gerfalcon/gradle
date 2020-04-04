@@ -31,6 +31,7 @@ class MavenSnapshotResolveIntegrationTest extends AbstractModuleDependencyResolv
     @Override
     String getTestConfiguration() { "compile" }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can resolve unique and non-unique snapshots"() {
         given:
         buildFile << """
@@ -979,6 +980,7 @@ Required by:
     @RequiredFeature(feature = GradleMetadataResolveRunner.REPOSITORY_TYPE, value = "maven")
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can resolve unique and non-unique snapshots using Gradle Module Metadata (redirection = #redirection, metadata sources=#metadataSources)"() {
         given:
         buildFile << """
