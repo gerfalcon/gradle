@@ -333,6 +333,7 @@ task retrieve(type: Sync) {
         file("libs/test-1.45.jar").assertIsCopyOf(moduleWithMetaData.jarFile)
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "removes redundant configurations from resolution result"() {
         given:
         settingsFile << "rootProject.name = 'test'"
