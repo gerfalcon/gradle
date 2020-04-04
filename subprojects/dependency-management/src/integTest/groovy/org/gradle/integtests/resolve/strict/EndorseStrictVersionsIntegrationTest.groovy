@@ -27,6 +27,7 @@ class EndorseStrictVersionsIntegrationTest extends AbstractModuleDependencyResol
         resolve.withStrictReasonsCheck()
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can downgrade version through platform"() {
         given:
         repository {
@@ -81,6 +82,7 @@ class EndorseStrictVersionsIntegrationTest extends AbstractModuleDependencyResol
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can deal with platform upgrades"() {
         given:
         repository {
@@ -144,6 +146,7 @@ class EndorseStrictVersionsIntegrationTest extends AbstractModuleDependencyResol
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "multiple endorsed strict versions that target the same module fail the build if they conflict"() {
         given:
         repository {
@@ -257,6 +260,7 @@ class EndorseStrictVersionsIntegrationTest extends AbstractModuleDependencyResol
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "strict version endorsing can be consumed from metadata"() {
         given:
         repository {
