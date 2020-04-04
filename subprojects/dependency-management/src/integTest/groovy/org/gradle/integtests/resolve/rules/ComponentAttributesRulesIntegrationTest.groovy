@@ -18,6 +18,7 @@ package org.gradle.integtests.resolve.rules
 import org.gradle.api.internal.project.ProjectInternal
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 import org.gradle.test.fixtures.server.http.IvyHttpModule
 import spock.lang.Unroll
@@ -25,6 +26,7 @@ import spock.lang.Unroll
 class ComponentAttributesRulesIntegrationTest extends AbstractModuleDependencyResolveTest {
 
     @Unroll("#outcome if attribute is #mutation via component metadata rule")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "check that attribute rules modify the result of dependency resolution"() {
         given:
         repository {
@@ -98,6 +100,7 @@ class ComponentAttributesRulesIntegrationTest extends AbstractModuleDependencyRe
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "variant attributes take precedence over component attributes (component level = #componentLevel)"() {
         given:
         repository {
@@ -163,6 +166,7 @@ class ComponentAttributesRulesIntegrationTest extends AbstractModuleDependencyRe
         componentLevel << [true, false]
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can use a component metadata rule to infer quality attribute"() {
         given:
         repository {
@@ -231,6 +235,7 @@ class ComponentAttributesRulesIntegrationTest extends AbstractModuleDependencyRe
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "published component metadata can be overwritten (fix applied = #fixApplied)"() {
         given:
         repository {
@@ -304,6 +309,7 @@ class ComponentAttributesRulesIntegrationTest extends AbstractModuleDependencyRe
         fixApplied << [false, true]
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can add attributes to variants with existing usage attribute"() {
         given:
         repository {
@@ -377,6 +383,7 @@ class ComponentAttributesRulesIntegrationTest extends AbstractModuleDependencyRe
      * to use the right version.
      */
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can select the latest.#status version having release status"() {
         given:
         def versions = [
