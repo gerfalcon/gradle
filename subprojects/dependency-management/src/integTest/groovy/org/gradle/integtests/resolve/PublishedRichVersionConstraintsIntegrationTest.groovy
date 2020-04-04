@@ -18,11 +18,13 @@ package org.gradle.integtests.resolve
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import spock.lang.Issue
 import spock.lang.Unroll
 
 @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
 class PublishedRichVersionConstraintsIntegrationTest extends AbstractModuleDependencyResolveTest {
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "should not downgrade dependency version when an external transitive dependency has strict version"() {
         given:
         repository {
@@ -60,6 +62,7 @@ class PublishedRichVersionConstraintsIntegrationTest extends AbstractModuleDepen
 
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "should pass if strict version ranges overlap using external dependencies"() {
         given:
         repository {
@@ -114,6 +117,7 @@ class PublishedRichVersionConstraintsIntegrationTest extends AbstractModuleDepen
     }
 
     @Issue("gradle/gradle#4186")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "should choose highest when multiple prefer versions disagree"() {
         repository {
             'org:bar:1' {
@@ -173,6 +177,7 @@ class PublishedRichVersionConstraintsIntegrationTest extends AbstractModuleDepen
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "direct strict dependency should win over published transitive strict dependency"() {
         given:
         repository {
@@ -218,6 +223,7 @@ class PublishedRichVersionConstraintsIntegrationTest extends AbstractModuleDepen
 
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "should fail during conflict resolution transitive dependency rejects"() {
         given:
         repository {
@@ -255,6 +261,7 @@ class PublishedRichVersionConstraintsIntegrationTest extends AbstractModuleDepen
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "honors multiple rejections #rejects using dynamic versions using dependency notation #notation"() {
         given:
         repository {
@@ -298,6 +305,7 @@ class PublishedRichVersionConstraintsIntegrationTest extends AbstractModuleDepen
 
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "should fail if required module is rejected"() {
         given:
         repository {
@@ -333,6 +341,7 @@ class PublishedRichVersionConstraintsIntegrationTest extends AbstractModuleDepen
 
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "shows only one path to dependency when node is already visited"() {
         given:
         repository {
@@ -391,6 +400,7 @@ class PublishedRichVersionConstraintsIntegrationTest extends AbstractModuleDepen
         failure.assertHasNoCause("Dependency path ':test:unspecified' --> 'org:d:1.0' --> 'org:c:1.0' --> 'org:b:1.1'")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "handles dependency cycles"() {
         given:
         repository {
