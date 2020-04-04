@@ -47,6 +47,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
         resolve.addDefaultVariantDerivationStrategy()
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency constraint is not included in resolution without a hard dependency"() {
         given:
         mavenRepo.module("org", "foo", '1.0').publish()
@@ -69,6 +70,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency constraint is included into the result of resolution when a hard dependency is also added"() {
         given:
         mavenRepo.module("org", "foo", '1.1').publish()
@@ -96,6 +98,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency constraint can be used to declare incompatibility"() {
         given:
         mavenRepo.module("org", "foo", '1.1').publish()
@@ -125,6 +128,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
    Constraint path ':test:unspecified' --> 'org:foo:{reject all versions}'""")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency constraint is included into the result of resolution when a hard dependency is also added transitively"() {
         given:
         mavenRepo.module("org", "foo", '1.0').publish()
@@ -160,6 +164,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
      * Test demonstrates a bug in resolution of constraints, when real dependency is evicted via conflict resolution.
      */
     @Issue("gradle/gradle#4610")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency constraint should not preserve hard dependency for evicted dependency"() {
         given:
         // "org:foo:1.0" -> "org:baz:1.0" -> "org:baz-transitive:1.0"
@@ -227,6 +232,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
          */
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "range resolution kicks in with dependency constraints"() {
         given:
         mavenRepo.module("org", "foo", '1.0').publish()
@@ -261,6 +267,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "transitive dependencies of an dependency constraint do not participate in conflict resolution if it is not included elsewhere"() {
         given:
         mavenRepo.module("org", "foo", '1.0').dependsOn('org', 'bar', '1.1').publish()
@@ -289,6 +296,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency constraints on substituted module is recognized properly"() {
         given:
         mavenRepo.module("org", "foo", '1.0').publish()
@@ -338,6 +346,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency constraints are inherited"() {
         given:
         mavenRepo.module("org", "foo", '1.0').publish()
@@ -373,6 +382,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency constraints defined for a configuration are applied when resolving that configuration as part of a project dependency"() {
         given:
         mavenRepo.module("org", "foo", '1.0').publish()
@@ -469,6 +479,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
     }
 
     @Issue("gradle/gradle#4609")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "dependency constraint does not invalidate excludes defined on hard dependency"() {
         given:
         mavenRepo.module("org", "baz", "1.0").publish()
@@ -502,6 +513,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency constraints should not pull in additional artifacts"() {
         given:
         mavenRepo.module("org", "foo", '1.0').artifact(classifier: 'shaded').publish()
@@ -531,6 +543,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "dependency constraints should not pull in additional artifacts for transitive dependencies"() {
         given:
         def foo11 = mavenRepo.module("org", "foo", '1.0').artifact(classifier: 'shaded').publish()
@@ -564,6 +577,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void 'dependency updated through constraints has its transitive dependencies'() {
         given:
         def foo10 = mavenRepo.module('org', 'foo', '1.0').publish()
@@ -594,6 +608,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void 'dependency without version updated through constraints has its transitive dependencies'() {
         given:
         def foo10 = mavenRepo.module('org', 'foo', '1.0').publish()
@@ -624,6 +639,7 @@ class DependencyConstraintsIntegrationTest extends AbstractPolyglotIntegrationSp
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void 'dependency constraint can be not pending, then pending, then not pending and still participate in resolution'() {
         def constrainedBase = mavenRepo.module('org', 'constrained', '1.0').publish()
         def constrained = mavenRepo.module('org', 'constrained', '1.1').publish()
