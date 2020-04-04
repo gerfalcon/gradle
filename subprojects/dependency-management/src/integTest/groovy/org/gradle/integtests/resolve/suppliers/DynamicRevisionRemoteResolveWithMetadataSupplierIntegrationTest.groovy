@@ -45,6 +45,7 @@ class DynamicRevisionRemoteResolveWithMetadataSupplierIntegrationTest extends Ab
 
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can use a custom metadata provider"() {
         given:
         def supplierInteractions = withPerVersionStatusSupplier()
@@ -293,6 +294,7 @@ class DynamicRevisionRemoteResolveWithMetadataSupplierIntegrationTest extends Ab
         checkResolve "group:projectA:1.+": ["group:projectA:1.2", "didn't match version 2.0"], "group:projectB:latest.release": ["group:projectB:1.1", "didn't match version 2.2"]
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can recover from --offline mode"() {
         given:
         def supplierInteractions = withPerVersionStatusSupplier()
@@ -399,6 +401,7 @@ class DynamicRevisionRemoteResolveWithMetadataSupplierIntegrationTest extends Ab
         failure.assertHasCause("No cached resource '${server.uri}/repo/group/projectB/2.2/status-offline.txt' available for offline mode.")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reports and recovers from remote failure"() {
         given:
         def supplierInteractions = withPerVersionStatusSupplier()
@@ -505,6 +508,7 @@ class DynamicRevisionRemoteResolveWithMetadataSupplierIntegrationTest extends Ab
         succeeds 'checkDeps'
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "handles and recovers from errors in a custom metadata provider"() {
         given:
         buildFile << """
@@ -554,6 +558,7 @@ class DynamicRevisionRemoteResolveWithMetadataSupplierIntegrationTest extends Ab
         succeeds 'checkDeps'
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "handles failure to create custom metadata provider"() {
         given:
         buildFile << """
@@ -592,6 +597,7 @@ class DynamicRevisionRemoteResolveWithMetadataSupplierIntegrationTest extends Ab
 
 
     @RequiredFeature(feature=GradleMetadataResolveRunner.REPOSITORY_TYPE, value="ivy")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "custom metadata provider doesn't have to do something"() {
         given:
         buildFile << """
@@ -747,6 +753,7 @@ group:projectB:2.2;release
 
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "refresh-dependencies triggers revalidating external resources"() {
         given:
         def supplierInteractions = withPerVersionStatusSupplier()
@@ -804,6 +811,7 @@ group:projectB:2.2;release
         checkResolve "group:projectA:1.+":  ["group:projectA:1.2", "didn't match version 2.0"], "group:projectB:latest.release": ["group:projectB:1.1", "didn't match version 2.2"]
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "component metadata rules are executed after metadata supplier is called"() {
         given:
         def supplierInteractions = withPerVersionStatusSupplier()
@@ -863,6 +871,7 @@ group:projectB:2.2;release
         outputContains "Changing status for group:projectB:1.1 from '${GradleMetadataResolveRunner.useIvy()?'integration':'release'}' to 'release'"
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can use a custom metadata provider to expose components with custom attributes"() {
         given:
         withSupplierWithAttributes([
@@ -894,6 +903,7 @@ group:projectB:2.2;release
         outputContains 'Providing metadata for group:projectB:1.1'
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can use a custom metadata provider to perform selection using attributes without fetching component metadata"() {
         given:
         withSupplierWithAttributes([
@@ -944,6 +954,7 @@ group:projectB:2.2;release
      * is here to prove that coercion works properly whenever attributes are sourced from a component metadata
      * supplier.
      */
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "user provided attributes are properly coerced to typed attributes"() {
         given:
         withSupplierWithAttributes([
@@ -991,6 +1002,7 @@ group:projectB:2.2;release
         outputContains 'Providing metadata for group:projectA:1.2'
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can cache the result of processing a rule across projects"() {
         settingsFile << """
             include 'b'
@@ -1193,6 +1205,7 @@ group:projectB:2.2;release
 
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "cross-build caching is resilient to failure"() {
         def metadataFile = file("buildSrc/src/main/groovy/MP.groovy")
         executer.requireIsolatedDaemons() // because we're going to --stop
