@@ -18,6 +18,7 @@ package org.gradle.integtests.resolve.maven
 
 import org.gradle.api.attributes.Usage
 import org.gradle.integtests.fixtures.AbstractHttpDependencyResolutionTest
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.resolve.ResolveTestFixture
 
 class ClassifierToVariantResolveIntegrationTest extends AbstractHttpDependencyResolutionTest {
@@ -46,6 +47,7 @@ class ClassifierToVariantResolveIntegrationTest extends AbstractHttpDependencyRe
      * so if a Gradle consumer depends on that Maven published library, we want to make sure we
      * can match this classified dependency to a proper variant.
      */
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reasonable behavior when a Maven library uses a classifier to select a Gradle variant"() {
         def gradleLibrary = mavenHttpRepo.module("org", "lib", "1.0")
                 .adhocVariants()
@@ -101,6 +103,7 @@ class ClassifierToVariantResolveIntegrationTest extends AbstractHttpDependencyRe
      * on a library published with Gradle that uses variants published using different
      * classified artifacts.
      */
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reasonable behavior when a Gradle consumer uses a classifier to select a Gradle variant"() {
         def gradleLibrary = mavenHttpRepo.module("org", "lib", "1.0")
                 .adhocVariants()
