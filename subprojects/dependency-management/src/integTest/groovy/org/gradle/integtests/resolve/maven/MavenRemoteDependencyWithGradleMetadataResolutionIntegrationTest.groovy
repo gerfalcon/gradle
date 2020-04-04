@@ -794,6 +794,7 @@ dependencies {
         failure.assertHasCause("Could not parse module metadata ${m.moduleMetadata.uri}")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reports failure to locate files"() {
         def m = mavenHttpRepo.module("test", "a", "1.2").withModuleMetadata()
         m.artifact(classifier: 'extra')
