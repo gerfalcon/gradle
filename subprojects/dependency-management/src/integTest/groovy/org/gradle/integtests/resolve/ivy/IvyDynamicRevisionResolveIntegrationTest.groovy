@@ -17,6 +17,7 @@ package org.gradle.integtests.resolve.ivy
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.executer.GradleContextualExecuter
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 import spock.lang.IgnoreIf
@@ -28,6 +29,7 @@ import spock.lang.Issue
 class IvyDynamicRevisionResolveIntegrationTest extends AbstractModuleDependencyResolveTest {
 
     @Issue("GRADLE-2502")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "latest.integration selects highest version regardless of status"() {
         given:
         buildFile << """
@@ -112,6 +114,7 @@ class IvyDynamicRevisionResolveIntegrationTest extends AbstractModuleDependencyR
     }
 
     @Issue("GRADLE-2502")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "latest.milestone selects highest version with milestone or release status"() {
         given:
         buildFile << """
@@ -254,6 +257,7 @@ Searched in the following locations:
     }
 
     @Issue("GRADLE-2502")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "latest.release selects highest version with release status"() {
         given:
         buildFile << """
@@ -388,6 +392,7 @@ Searched in the following locations:
     }
 
     @Issue(["GRADLE-2502", "GRADLE-2794"])
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "version selector ending in + selects highest matching version"() {
         given:
         buildFile << """
@@ -483,6 +488,7 @@ Searched in the following locations:
     }
 
     @Issue("GRADLE-2502")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "version range selects highest matching version"() {
         given:
         buildFile << """
@@ -555,6 +561,7 @@ Searched in the following locations:
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can resolve version range when no metadata is published"() {
         given:
         buildFile << """
@@ -608,6 +615,7 @@ Searched in the following locations:
     }
 
     @Issue("GRADLE-3334")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can resolve version range with single value specified"() {
         given:
         buildFile << """
