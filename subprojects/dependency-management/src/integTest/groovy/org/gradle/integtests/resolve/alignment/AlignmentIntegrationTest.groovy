@@ -23,6 +23,7 @@ import spock.lang.Issue
 
 class AlignmentIntegrationTest extends AbstractAlignmentSpec {
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "should align leaves to the same version"() {
         repository {
             path 'xml -> core'
@@ -63,6 +64,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "should not align modules outside of platform"() {
         repository {
             path 'xml -> core'
@@ -113,6 +115,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "should align leaf with core"() {
         repository {
             path 'xml -> core'
@@ -157,6 +160,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "shouldn't fail if target alignment version doesn't exist"() {
         repository {
             path 'xml -> core'
@@ -197,6 +201,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "should align leaves to the same version when core has lower version"() {
         repository {
             path 'xml -> core'
@@ -243,6 +248,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
      * want to upgrade annotations to the highest version of the platform seen in the graph, which
      * is 2.9.4.1, a **patch** release in this case. This patch release doesn't publish all versions
      */
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can align heterogeneous versions"() {
         repository {
             path 'databind:2.7.9 -> core:2.7.9'
@@ -294,6 +300,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
      * This test is a variant of the previous one where there's an additional catch: one
      * of the modules (annotations) is supposedly nonexistent in 2.7.9 (say, it appeared in 2.9.x)
      */
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can align heterogeneous versions with new modules appearing in later releases"() {
         repository {
             path 'databind:2.7.9 -> core:2.7.9'
@@ -343,6 +350,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
 
     // Platforms cannot be published with plain Ivy
     @RequiredFeature(feature = GradleMetadataResolveRunner.REPOSITORY_TYPE, value = "maven")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can align thanks to a published platform"() {
         repository {
             path 'databind:2.7.9 -> core:2.7.9'
@@ -446,6 +454,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
 
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can align 2 different platforms"() {
         repository {
             path 'xml -> core'
@@ -504,6 +513,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "doesn't align on evicted edge"() {
         given:
         repository {
@@ -559,6 +569,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "should not align on rejected version"() {
         repository {
             path 'xml -> core'
@@ -626,6 +637,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
 
     // This documents the current behavior. It doesn't really make sense to "belong to"
     // 2 different virtual platforms, as they would resolve exactly the same
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can belong to multiple virtual platforms"() {
         repository {
             path 'xml -> core'
@@ -670,6 +682,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
 
     // Platforms cannot be published with plain Ivy
     @RequiredFeature(feature = GradleMetadataResolveRunner.REPOSITORY_TYPE, value = "maven")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can belong to 2 different published platforms"() {
         given:
         repository {
@@ -774,6 +787,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
 
     // Platforms cannot be published with plain Ivy
     @RequiredFeature(feature = GradleMetadataResolveRunner.REPOSITORY_TYPE, value = "maven")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "belonging to both a virtual and a published platforms resolves with alignment"() {
         given:
         repository {
@@ -1080,6 +1094,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
     }
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.REPOSITORY_TYPE, value = "maven")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "virtual platform constraints shouldn't be transitive"() {
         repository {
             "org:member1:1.1" {
@@ -1119,6 +1134,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
     }
 
     @Issue("gradle/gradle#7916")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "shouldn't fail when a referenced component is a virtual platform"() {
         repository {
             'org:foo:1.0'()
@@ -1159,6 +1175,7 @@ class AlignmentIntegrationTest extends AbstractAlignmentSpec {
     // We only need to test one flavor
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
     @RequiredFeature(feature = GradleMetadataResolveRunner.REPOSITORY_TYPE, value = "maven")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "should manage to realign through two conflicts"() {
         repository {
             path 'start:start:1.0 -> foo:1.0'
