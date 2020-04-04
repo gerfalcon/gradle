@@ -18,6 +18,7 @@ package org.gradle.integtests.resolve
 
 import org.gradle.integtests.fixtures.AbstractDependencyResolutionTest
 import org.gradle.integtests.fixtures.FluidDependenciesResolveRunner
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.fixtures.resolve.ResolveTestFixture
 import org.junit.runner.RunWith
 
@@ -29,6 +30,7 @@ class FileDependencyResolveIntegrationTest extends AbstractDependencyResolutionT
         resolve.prepare()
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can specify producer task for file dependency"() {
         settingsFile << "include 'sub'; rootProject.name='main'"
         buildFile << '''
@@ -69,6 +71,7 @@ class FileDependencyResolveIntegrationTest extends AbstractDependencyResolutionT
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "result includes files that match pattern at the time queried"() {
         settingsFile << "include 'sub'; rootProject.name='main'"
         buildFile << '''
@@ -116,6 +119,7 @@ class FileDependencyResolveIntegrationTest extends AbstractDependencyResolutionT
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "files are requested once only when dependency is resolved"() {
         buildFile << '''
             def jarFile = file("jar-1.jar")
@@ -144,6 +148,7 @@ class FileDependencyResolveIntegrationTest extends AbstractDependencyResolutionT
         output.count("FILES REQUESTED") == 1
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "files referenced by file dependency are included when there is a cycle in the dependency graph"() {
         settingsFile << "include 'sub'; rootProject.name='main'"
         buildFile << '''
@@ -190,6 +195,7 @@ class FileDependencyResolveIntegrationTest extends AbstractDependencyResolutionT
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "files referenced by file dependency are not included or built when referenced by a non-transitive dependency"() {
         settingsFile << "include 'sub'; rootProject.name='main'"
         buildFile << '''
