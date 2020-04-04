@@ -18,6 +18,7 @@ package org.gradle.integtests.resolve.reproducibility
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 import spock.lang.Unroll
 
@@ -35,6 +36,7 @@ class FailOnChangingVersionsResolveIntegrationTest extends AbstractModuleDepende
         """
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "fails to resolve a direct changing dependency"() {
         buildFile << """
             dependencies {
@@ -60,6 +62,7 @@ class FailOnChangingVersionsResolveIntegrationTest extends AbstractModuleDepende
         failure.assertHasCause("Could not resolve org:test:1.0: Resolution strategy disallows usage of changing versions")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "fails to resolve a transitive changing dependency"() {
         buildFile << """
             dependencies {
@@ -96,6 +99,7 @@ class FailOnChangingVersionsResolveIntegrationTest extends AbstractModuleDepende
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.REPOSITORY_TYPE, value = "maven")
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can deny a direct snapshot dependency (unique = #unique)"() {
         buildFile << """
             dependencies {
@@ -130,6 +134,7 @@ class FailOnChangingVersionsResolveIntegrationTest extends AbstractModuleDepende
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.REPOSITORY_TYPE, value = "maven")
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can deny a transitive snapshot dependency (unique = #unique)"() {
         buildFile << """
             dependencies {
