@@ -36,6 +36,7 @@ class IvyDynamicRevisionRemoteResolveIntegrationTest extends AbstractHttpDepende
     }
 
     @Issue("GRADLE-3264")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "resolves latest.milestone from when same dependency has a range constraint transitively"() {
         given:
         useRepository ivyHttpRepo
@@ -113,6 +114,7 @@ dependencies {
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "uses latest version from version range with #identifier characters"() {
         given:
         def name = identifier.safeForFileName().decorate("name")
@@ -380,6 +382,7 @@ dependencies {
         checkResolve "group:projectA:1.+": "group:projectA:1.2"
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "fails on broken directory listing in subsequent resolution"() {
         def repo1 = ivyHttpRepo("repo1")
         def repo2 = ivyHttpRepo("repo2")
@@ -451,6 +454,7 @@ dependencies {
         checkResolve "group:projectA:1.+": "group:projectA:1.2"
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reuses cached artifacts that match multiple dynamic versions"() {
         given:
         useRepository ivyHttpRepo
@@ -551,6 +555,7 @@ task resolveStaleThenFresh {
         outputContains("stale:[projectA-1.2.jar],fresh:[projectA-1.3.jar]")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reuses cached version lists unless no matches"() {
         given:
         useRepository ivyHttpRepo
@@ -780,6 +785,7 @@ dependencies {
         checkResolve "group:projectA:1.+": "group:projectA:1.0"
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reuses cached artifacts across repository types"() {
         def ivyRepo = ivyHttpRepo('repo1')
         def mavenRepo = mavenHttpRepo('repo2')
@@ -953,6 +959,7 @@ configurations.all {
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reports and recovers from no matching version for dynamic version"() {
         def repo2 = ivyHttpRepo("repo-2")
 
@@ -1042,6 +1049,7 @@ Required by:
         checkResolve "group:projectA:2.+": ["group:projectA:2.2", "didn't match versions 3.0, 1.2, 1.1, 4.4"]
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reports and recovers from missing directory available for dynamic version"() {
         given:
         useRepository ivyHttpRepo
@@ -1087,6 +1095,7 @@ Required by:
         checkResolve "group:projectA:2.+": "group:projectA:2.2"
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reports and recovers from missing dynamic version when no repositories defined"() {
         given:
         buildFile << """
@@ -1109,6 +1118,7 @@ dependencies {
         checkResolve "group:projectA:2.+": "group:projectA:2.2"
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reports and recovers from broken directory available for dynamic version"() {
         given:
         useRepository ivyHttpRepo
@@ -1140,6 +1150,7 @@ dependencies {
         checkResolve "group:projectA:2.+": "group:projectA:2.2"
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reports and recovers from missing module for dynamic version that requires meta-data"() {
         given:
         useRepository ivyHttpRepo
@@ -1174,6 +1185,7 @@ Required by:
         checkResolve "group:projectA:latest.release": "group:projectA:1.2"
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "reports and recovers from broken module for dynamic version that requires meta-data"() {
         given:
         useRepository ivyHttpRepo
