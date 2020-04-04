@@ -60,6 +60,7 @@ class ComponentSelectionRulesProcessingIntegTest extends AbstractComponentSelect
         succeeds 'lenientCheck'
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "further rules are not fired when any rule rejects candidate"() {
         buildFile << """
             dependencies {
@@ -426,6 +427,7 @@ class ComponentSelectionRulesProcessingIntegTest extends AbstractComponentSelect
         checkDependencies("assertDeps")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can provide component selection rule as closure" () {
         buildFile << """
             dependencies {
@@ -469,6 +471,7 @@ class ComponentSelectionRulesProcessingIntegTest extends AbstractComponentSelect
         checkDependencies()
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can provide component selection rule as rule source"() {
         buildFile << """
 
