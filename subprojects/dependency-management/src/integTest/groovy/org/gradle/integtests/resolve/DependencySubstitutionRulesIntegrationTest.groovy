@@ -32,6 +32,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         resolve.addDefaultVariantDerivationStrategy()
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "forces multiple modules by rule"() {
         mavenRepo.module("org.utils", "impl", '1.3').dependsOn('org.utils', 'api', '1.3').publish()
         mavenRepo.module("org.utils", "impl", '1.5').dependsOn('org.utils', 'api', '1.5').publish()
@@ -86,6 +87,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "module forced by rule has correct selection reason"() {
         mavenRepo.module("org.utils", "impl", '1.3').dependsOn('org.utils', 'api', '1.3').publish()
         mavenRepo.module("org.utils", "impl", '1.5').dependsOn('org.utils', 'api', '1.5').publish()
@@ -129,6 +131,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "all rules are executed in order and last one wins"() {
         mavenRepo.module("org.utils", "impl", '1.3').dependsOn('org.utils', 'api', '1.3').publish()
         mavenRepo.module("org.utils", "impl", '1.5').dependsOn('org.utils', 'api', '1.5').publish()
@@ -177,6 +180,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "all rules are executed in order and last one wins, including resolution rules"() {
         mavenRepo.module("org.utils", "impl", '1.3').dependsOn('org.utils', 'api', '1.3').publish()
         mavenRepo.module("org.utils", "impl", '1.5').dependsOn('org.utils', 'api', '1.5').publish()
@@ -227,6 +231,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can unforce the version"() {
         mavenRepo.module("org.utils", "impl", '1.3').dependsOn('org.utils', 'api', '1.3').publish()
         mavenRepo.module("org.utils", "impl", '1.5').dependsOn('org.utils', 'api', '1.5').publish()
@@ -266,6 +271,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "forced modules and rules coexist"() {
         mavenRepo.module("org.utils", "impl", '1.3').dependsOn('org.utils', 'api', '1.3').publish()
         mavenRepo.module("org.utils", "impl", '1.5').dependsOn('org.utils', 'api', '1.5').publish()
@@ -303,6 +309,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "rule selects a dynamic version"() {
         mavenRepo.module("org.utils", "api", '1.3').publish()
         mavenRepo.module("org.utils", "api", '1.4').publish()
@@ -342,6 +349,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can substitute modules with project dependency using #name"() {
         settingsFile << 'include "api", "impl"'
         buildFile << """
@@ -428,6 +436,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
     }
 
     @Unroll
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can replace project dependency #projectGroup:api:#projectVersion with external dependency org.utils:api:1.5"() {
         mavenRepo.module("org.utils", "api", '1.5').publish()
 
@@ -472,6 +481,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         "2.0"          | "my.org.utils" | "GAV different, version and group"
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can replace transitive external dependency with project dependency"() {
         mavenRepo.module("org.utils", "impl", '1.5').dependsOn('org.utils', 'api', '1.5').publish()
         settingsFile << 'include "api", "test"'
@@ -511,6 +521,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         executedAndNotSkipped ":api:jar"
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can replace client module dependency with project dependency"() {
         settingsFile << 'include "api", "impl"'
 
@@ -557,6 +568,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can replace client module's transitive dependency with project dependency"() {
         settingsFile << 'include "api", "impl"'
         mavenRepo.module("org.utils", "bela", '1.5').publish()
@@ -593,6 +605,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can replace external dependency declared in extended configuration with project dependency"() {
         mavenRepo.module("org.utils", "api", '1.5').publish()
 
@@ -631,6 +644,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can replace forced external dependency with project dependency"() {
         settingsFile << 'include "api", "impl"'
 
@@ -696,6 +710,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         failure.assertHasCause("Project :doesnotexist not found.")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "replacing external module dependency with project dependency keeps the original configuration"() {
         settingsFile << 'include "api", "impl"'
 
@@ -727,6 +742,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "replacing external module dependency with project dependency keeps the original transitivity"() {
         mavenRepo.module("org.utils", "impl", '1.5').dependsOn('org.utils', 'api', '1.5').publish()
         settingsFile << 'include "impl", "test"'
@@ -759,6 +775,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "external dependency substituted for a project dependency participates in conflict resolution"() {
         mavenRepo.module("org.utils", "api", '2.0').publish()
 
@@ -818,6 +835,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "project dependency substituted for an external dependency participates in conflict resolution"() {
         mavenRepo.module("org.utils", "dep1", '2.0').publish()
         mavenRepo.module("org.utils", "dep2", '2.0').publish()
@@ -873,6 +891,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can blacklist a version"() {
         mavenRepo.module("org.utils", "a", '1.4').publish()
         mavenRepo.module("org.utils", "a", '1.3').publish()
@@ -906,6 +925,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can blacklist a version that is not used"() {
         mavenRepo.module("org.utils", "a", '1.3').publish()
         mavenRepo.module("org.utils", "a", '1.2').publish()
@@ -937,6 +957,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can use custom versioning scheme"() {
         mavenRepo.module("org.utils", "api", '1.3').publish()
 
@@ -965,6 +986,7 @@ class DependencySubstitutionRulesIntegrationTest extends AbstractIntegrationSpec
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can use custom versioning scheme for transitive dependencies"() {
         mavenRepo.module("org.utils", "api", '1.3').publish()
         mavenRepo.module("org.utils", "impl", '1.3').dependsOn('org.utils', 'api', 'default').publish()
@@ -1194,6 +1216,7 @@ Required by:
         failure.assertHasCause("Must specify version for target of dependency substitution")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "can substitute module name and resolve conflict"() {
         mavenRepo.module("org.utils", "a", '1.2').publish()
         mavenRepo.module("org.utils", "b", '2.0').publish()
@@ -1223,6 +1246,7 @@ Required by:
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can substitute module group"() {
         mavenRepo.module("org", "a", "1.0").publish()
         mavenRepo.module("org", "b").dependsOn("org", "a", "2.0").publish()
@@ -1263,6 +1287,7 @@ Required by:
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can substitute module group, name and version"() {
         mavenRepo.module("org", "a", "1.0").publish()
         mavenRepo.module("org", "b").dependsOn("org", "a", "2.0").publish()
@@ -1323,6 +1348,7 @@ Required by:
         failure.assertHasCause("Invalid format: 'foobar'")
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "substituted module version participates in conflict resolution"() {
         mavenRepo.module("org", "a", "2.0").dependsOn("org", "b", "2.0").publish()
         mavenRepo.module("org", "b", "2.0").dependsOn("org", "c", "2.0").publish()
@@ -1392,6 +1418,7 @@ Required by:
         """
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     void "custom dependency substitution reasons are available in resolution result"() {
         mavenRepo.module("org", "a", "1.0").publish()
         mavenRepo.module("org", "b").dependsOn("org", "a", "2.0").publish()
@@ -1432,6 +1459,7 @@ Required by:
     }
 
     @Issue("gradle/gradle#5692")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def 'substitution with project does not trigger failOnVersionConflict'() {
         settingsFile << 'include "sub"'
         buildFile << """
