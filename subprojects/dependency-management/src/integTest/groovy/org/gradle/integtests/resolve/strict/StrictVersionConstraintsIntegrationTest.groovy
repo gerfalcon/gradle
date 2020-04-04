@@ -17,6 +17,7 @@ package org.gradle.integtests.resolve.strict
 
 import org.gradle.integtests.fixtures.GradleMetadataResolveRunner
 import org.gradle.integtests.fixtures.RequiredFeature
+import org.gradle.integtests.fixtures.ToBeFixedForInstantExecution
 import org.gradle.integtests.resolve.AbstractModuleDependencyResolveTest
 
 class StrictVersionConstraintsIntegrationTest extends AbstractModuleDependencyResolveTest {
@@ -25,6 +26,7 @@ class StrictVersionConstraintsIntegrationTest extends AbstractModuleDependencyRe
         resolve.withStrictReasonsCheck()
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can downgrade version"() {
         given:
         repository {
@@ -68,6 +70,7 @@ class StrictVersionConstraintsIntegrationTest extends AbstractModuleDependencyRe
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can use dependency constraint to downgrade version"() {
         given:
         repository {
@@ -113,6 +116,7 @@ class StrictVersionConstraintsIntegrationTest extends AbstractModuleDependencyRe
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "a strict constraint wins over a nested strict constraint"() {
         boolean publishedConstraintsSupported = gradleMetadataPublished
 
@@ -172,6 +176,7 @@ class StrictVersionConstraintsIntegrationTest extends AbstractModuleDependencyRe
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "identical strict constraints can co-exist in a graph"() {
         boolean publishedConstraintsSupported = gradleMetadataPublished
 
@@ -231,6 +236,7 @@ class StrictVersionConstraintsIntegrationTest extends AbstractModuleDependencyRe
     }
 
     @RequiredFeature(feature=GradleMetadataResolveRunner.GRADLE_METADATA, value="true")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "conflicting version constraints fail resolution"() {
         given:
         repository {
@@ -273,6 +279,7 @@ class StrictVersionConstraintsIntegrationTest extends AbstractModuleDependencyRe
    Dependency path ':test:unspecified' --> 'org:a:1.0' --> 'org:b:1.0' --> 'org:c:2.0'"""
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "strict from selected and later evicted modules are ignored"() {
         given:
         repository {
@@ -356,6 +363,7 @@ class StrictVersionConstraintsIntegrationTest extends AbstractModuleDependencyRe
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can bring back a rejected version"() {
         String publishedFooDependencyVersion = gradleMetadataPublished ? '{require 2.0; reject 1.0}' : '2.0'
 
@@ -403,6 +411,7 @@ class StrictVersionConstraintsIntegrationTest extends AbstractModuleDependencyRe
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can downgrade a version range"() {
         given:
         repository {
@@ -449,6 +458,7 @@ class StrictVersionConstraintsIntegrationTest extends AbstractModuleDependencyRe
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can downgrade to a local project"() {
         given:
         repository {
@@ -501,6 +511,7 @@ class StrictVersionConstraintsIntegrationTest extends AbstractModuleDependencyRe
     }
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "original version constraint is not ignored if there is another parent"() {
         given:
         repository {
@@ -549,6 +560,7 @@ class StrictVersionConstraintsIntegrationTest extends AbstractModuleDependencyRe
     }
 
     @RequiredFeature(feature = GradleMetadataResolveRunner.GRADLE_METADATA, value = "true")
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "can reintroduce a strict version on the root level"() { // similar to test above, but reintroduces strict version in build script
         given:
         repository {
@@ -614,6 +626,7 @@ class StrictVersionConstraintsIntegrationTest extends AbstractModuleDependencyRe
         }
     }
 
+    @ToBeFixedForInstantExecution(because = "Task with Configuration field in ResolveTestFixture")
     def "does not ignore a second dependency declaration which only differs in strictly detail"() {
         given:
         repository {
